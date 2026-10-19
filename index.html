@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>QR Print Kiosk — Self-Service Print Shop System</title>
-<meta name="description" content="QR-based self-service print kiosk system. Customers scan, upload and print — direct phone-to-printer connection, auto-print, auto-delete.">
+<meta name="description" content="QR-based self-service print kiosk system. Shop owners log in, generate a QR, customers scan and print — no customer account needed.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f26522'/%3E%3Crect x='6' y='6' width='8' height='8' fill='%23fff'/%3E%3Crect x='18' y='6' width='8' height='8' fill='%23fff'/%3E%3Crect x='6' y='18' width='8' height='8' fill='%23fff'/%3E%3Crect x='19' y='19' width='5' height='5' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#141210; --bg2:#1c1915; --bg3:#262119;
+  --bg:#141210; --bg2:#1c1915;
   --paper:#f6f1e7; --card:#fffdf7;
   --ink:#171310; --ink2:#463d31; --muted:#8d8171;
   --line:#ddd2bd; --line-dark:#3a3226;
@@ -73,6 +73,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .btn.dark{background:var(--ink);border-color:var(--ink);color:#f6f1e7;}
 .btn.dark:hover{background:var(--accent);border-color:var(--accent);}
 .btn.sm{padding:11px 16px;font-size:10px;}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none !important;}
 .trust{display:flex;gap:20px;flex-wrap:wrap;margin-top:30px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;}
 .trust span{color:#b7a98f;}
 .trust span::before{content:"✓";color:var(--accent);margin-right:8px;font-weight:700;}
@@ -176,6 +177,26 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7d7160;}
 @media (max-width:760px){.foot-grid{grid-template-columns:1fr;}}
 
+/* ============ LOGIN (shop owner only) ============ */
+.view-login{background:var(--paper);min-height:100vh;}
+.login-wrap{display:grid;grid-template-columns:1.05fr .95fr;min-height:calc(100vh - 63px);}
+.login-brand{background:var(--ink);color:#f3ecdf;padding:clamp(34px,6vw,72px);display:flex;flex-direction:column;justify-content:center;}
+.login-brand .eyebrow{margin-bottom:6px;}
+.login-brand h1{font-family:var(--disp);font-size:clamp(44px,6.4vw,92px);line-height:.9;text-transform:uppercase;margin:18px 0;color:#fffaf1;}
+.login-brand h1 em{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--accent);}
+.login-brand p{color:#c9b998;font-size:15px;line-height:1.8;max-width:46ch;margin:0;}
+.login-points{list-style:none;padding:0;margin:28px 0 0;display:grid;gap:12px;}
+.login-points li{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#c9b998;padding-left:24px;position:relative;}
+.login-points li::before{content:"→";position:absolute;left:0;color:var(--accent);font-weight:700;}
+.login-card{background:var(--card);padding:clamp(28px,5vw,64px);display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--line);}
+.login-card h2{font-family:var(--disp);font-size:clamp(30px,3.6vw,42px);letter-spacing:.05em;text-transform:uppercase;margin:0 0 4px;}
+.login-card .sub{color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;margin:0 0 22px;}
+.auth-err{background:rgba(194,53,42,.1);border:1.5px solid var(--no);color:var(--no);
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:11px 13px;margin:14px 0 0;display:none;}
+.auth-err.on{display:block;}
+.auth-note{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;line-height:1.9;margin:18px 0 0;}
+@media (max-width:900px){.login-wrap{grid-template-columns:1fr;} .login-brand{padding:34px 22px;} .login-card{border-left:0;border-top:1px solid var(--line);}}
+
 /* KIOSK */
 .view-kiosk{background:var(--paper);min-height:100vh;}
 .kiosk-head{background:var(--ink);color:#f3ecdf;padding:18px clamp(16px,4vw,40px);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
@@ -183,10 +204,8 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .kiosk-head .pill{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
   border:1px solid #4c4133;padding:7px 12px;color:#d9cdb8;}
 .kiosk-wrap{max-width:660px;margin:0 auto;padding:30px clamp(16px,4vw,24px) 90px;}
-.conn-chip{
-  display:flex;align-items:center;gap:11px;background:var(--card);border:1.5px solid var(--ink);
-  padding:13px 16px;margin-bottom:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
-}
+.conn-chip{display:flex;align-items:center;gap:11px;background:var(--card);border:1.5px solid var(--ink);
+  padding:13px 16px;margin-bottom:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;}
 .conn-chip .dot{width:10px;height:10px;flex:none;}
 .conn-chip .dot.on{background:#2fbf71;animation:pulse 1.8s infinite;}
 .conn-chip .dot.wait{background:var(--gold);animation:pulse 1.1s infinite;}
@@ -231,7 +250,6 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .estimate .amt{font-family:var(--disp);font-size:46px;line-height:1;}
 .estimate .brk{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#b7a98f;text-transform:uppercase;}
 .btn-submit{width:100%;justify-content:center;padding:19px;font-size:12px;}
-.btn-submit[disabled]{opacity:.45;cursor:not-allowed;transform:none !important;letter-spacing:.22em !important;}
 .prog-wrap{background:var(--card);border:1.5px solid var(--ink);padding:30px 24px;text-align:center;}
 .prog-wrap h2{font-family:var(--disp);font-size:30px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px;}
 .prog-wrap p{color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 20px;}
@@ -266,6 +284,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .desk-head{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:16px clamp(16px,3vw,36px);
   border-bottom:1px solid var(--line-dark);background:#1b1713;position:sticky;top:0;z-index:110;}
 .desk-head .shop{font-family:var(--disp);font-size:24px;letter-spacing:.06em;color:#fffaf1;}
+.desk-head .owner{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#8d7f68;}
 .clock{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:#b7a98f;text-transform:uppercase;}
 .desk-head .tools{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
 .desk-wrap{padding:26px clamp(16px,3vw,36px) 80px;max-width:1400px;margin:0 auto;}
@@ -274,8 +293,10 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   background:#211c17;border:1px solid var(--line-dark);border-left:3px solid var(--accent);padding:24px;margin-bottom:22px;}
 .qr-\boxed{width:200px;background:#fff;padding:12px;}
 .qr-box svg{display:block;width:100%;height:auto;}
+.qr-box.empty{background:#171410;border:1.5px dashed var(--line-dark);height:200px;display:grid;place-items:center;}
+.qr-box.empty span{font-family:var(--mono);font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:#6b5f4c;}
 .conn-info h2{font-family:var(--disp);font-size:clamp(26px,3.4vw,40px);line-height:.95;letter-spacing:.03em;text-transform:uppercase;margin:0 0 10px;color:#fffaf1;}
-.conn-info p{margin:0 0 16px;color:#c9b998;font-size:13.8px;line-height:1.75;max-width:60ch;}
+.conn-info p{margin:0 0 16px;color:#c9b998;font-size:13.8px;line-height:1.75;max-width:62ch;}
 .conn-meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
 .conn-code{font-family:var(--mono);font-size:11px;letter-spacing:.18em;background:#171410;border:1px solid var(--line-dark);
   padding:9px 13px;color:var(--gold);word-break:break-all;}
@@ -382,7 +403,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
     <a href="#features">Features</a>
     <a href="#pricing">Pricing</a>
     <a href="#/kiosk">Customer Kiosk</a>
-    <a href="#/desk" class="hot">Print Station</a>
+    <a href="#/login" id="navStation" class="hot">Shop Login</a>
   </div>
 </nav>
 
@@ -391,15 +412,15 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   <header class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow"><i></i> Phone → printer · direct connection</div>
+        <div class="eyebrow"><i></i> Owner logs in · customers just scan</div>
         <h1 class="hero-title">Turn your print shop into a <em>self-service kiosk</em></h1>
-        <p class="hero-sub">Customers scan your shop QR, upload their file and it <b>prints instantly on your counter printer</b> — connected directly, device to device, over an encrypted link. No approval taps, no app, no pen drives, no queues.</p>
+        <p class="hero-sub">Log in to your print station and generate your shop QR. Customers <b>scan it, upload their file and it prints instantly</b> — no customer account, no app, no queues, no pen drives.</p>
         <div class="hero-cta">
           <a class="btn" href="#/kiosk">Open customer kiosk</a>
-          <a class="btn ghost" href="#/desk">Open print station</a>
+          <a class="btn ghost" href="#/login">Shop owner login</a>
         </div>
         <div class="trust">
-          <span>Auto-print on arrival</span><span>Auto file deletion</span><span>Direct phone-to-printer link</span>
+          <span>No customer sign-up</span><span>Auto-print on arrival</span><span>Auto file deletion</span>
         </div>
       </div>
       <div class="ticket-stack">
@@ -412,9 +433,9 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
             <dt>File</dt><dd>assignment-final.pdf</dd>
             <dt>Pages</dt><dd>12 × 2 copies</dd>
             <dt>Mode</dt><dd>B&amp;W · A4</dd>
-            <dt>Link</dt><dd>Direct · encrypted</dd>
+            <dt>Account</dt><dd>None needed</dd>
           </dl>
-          <div class="t-foot"><span style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)">SENT → PRINTED IN</span><div class="t-price">14s</div></div>
+          <div class="t-foot"><span style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)">SCANNED → PRINTED IN</span><div class="t-price">18s</div></div>
         </article>
         <article class="ticket t2">
           <div class="t-head">
@@ -444,9 +465,9 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 
   <div class="marquee">
     <div class="mq-track">
-      <span>Scan ✕ Upload ✕ Auto-Print ✕ Auto-Delete</span>
-      <span>Scan ✕ Upload ✕ Auto-Print ✕ Auto-Delete</span>
-      <span>Scan ✕ Upload ✕ Auto-Print ✕ Auto-Delete</span>
+      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
+      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
+      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
     </div>
   </div>
 
@@ -457,13 +478,13 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
           <div class="sec-kicker">✦ Simple 3-step flow</div>
           <h2 class="sec-title">From QR scan to printed page <u>in under 60 seconds</u></h2>
         </div>
-        <p class="sec-note">The customer's phone connects straight to your print station. No approval step — the job prints the moment it arrives.</p>
+        <p class="sec-note">Only the shop owner has an account. Customers scan and send — nothing else.</p>
       </div>
       <div class="steps">
-        <div class="step"><div class="step-n">01</div><h3>Customer scans QR</h3><p>Scanning the shop QR opens the upload page and pairs the phone with your print station automatically.</p></div>
-        <div class="step"><div class="step-n">02</div><h3>Uploads &amp; sends</h3><p>Picks copies, B&amp;W or colour and page range. The file travels directly to your station over an encrypted link.</p></div>
-        <div class="step"><div class="step-n">03</div><h3>Auto-print &amp; auto-delete</h3><p>The job prints immediately on the right printer — B&amp;W or colour auto-routed — then the file is wiped forever.</p></div>
-        <div class="step"><div class="step-n">+</div><h3>You stay in control</h3><p>Prefer to check jobs first? Flip on manual mode and every job waits for your tap. Off by default — zero-touch printing.</p></div>
+        <div class="step"><div class="step-n">01</div><h3>Owner logs in</h3><p>Sign in once on the computer connected to your printer and generate your shop QR code.</p></div>
+        <div class="step"><div class="step-n">02</div><h3>Customer scans &amp; sends</h3><p>The QR opens the upload page — no account, no login. The file goes straight to your station.</p></div>
+        <div class="step"><div class="step-n">03</div><h3>Auto-print &amp; auto-delete</h3><p>The job prints immediately on the right printer — B&amp;W or colour auto-routed — then the file is wiped.</p></div>
+        <div class="step"><div class="step-n">+</div><h3>You stay in control</h3><p>Rotate your QR anytime with one tap. Prefer checking jobs first? Switch on manual mode in settings.</p></div>
       </div>
     </div>
   </section>
@@ -478,12 +499,12 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
         <p class="sec-note">Built for xerox centres, cyber cafes, campus copy shops and stationery stores that live on walk-in printing.</p>
       </div>
       <div class="feat-grid">
-        <div class="feat"><div class="corner"></div><div class="fx">01 — Connection</div><h3>Direct phone-to-printer link</h3><p>The customer's device connects straight to your print station over an encrypted channel. Files never sit on any server.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">02 — Zero-touch</div><h3>Auto-print on arrival</h3><p>Jobs print the moment they land — no approval queue, no tapping, no supervision needed at the counter.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">03 — Routing</div><h3>B&amp;W / colour auto-routing</h3><p>Connect separate black-and-white and colour printers. Jobs route themselves based on the customer's selection.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">04 — Live</div><h3>Live print station</h3><p>See every job arriving, transferring and printing in real time — with file name, pages, copies and price.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">05 — Privacy</div><h3>Auto file cleanup</h3><p>Files are deleted the instant printing completes. Customers' documents never stay on your machine.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">06 — Counter tools</div><h3>Print your shop QR</h3><p>Generate a full A4 QR poster with your connection code baked in. Scan it and the phone pairs instantly.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">01 — Access</div><h3>Owner login, customer free</h3><p>The print station is protected by your shop login. Customers never create accounts — they just scan and print.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">02 — QR</div><h3>One-tap QR generation</h3><p>Generate your shop QR after login, print the A4 poster, and rotate the code anytime for a fresh session.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">03 — Connection</div><h3>Direct phone-to-printer link</h3><p>The customer's device connects straight to your station over an encrypted channel. Files never sit on a server.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">04 — Zero-touch</div><h3>Auto-print on arrival</h3><p>Jobs print the moment they land — no approval queue, no tapping, no supervision needed at the counter.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">05 — Routing</div><h3>B&amp;W / colour auto-routing</h3><p>Connect separate black-and-white and colour printers. Jobs route themselves based on the customer's choice.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">06 — Privacy</div><h3>Auto file cleanup</h3><p>Files are deleted the instant printing completes. Customers' documents never stay on your machine.</p></div>
         <div class="feat"><div class="corner"></div><div class="fx">07 — Billing</div><h3>Custom per-page pricing</h3><p>Set your own rate for B&amp;W and colour pages separately. The customer sees the estimate before sending.</p></div>
         <div class="feat"><div class="corner"></div><div class="fx">08 — Insights</div><h3>Monthly usage tracking</h3><p>Pages printed this month and estimated revenue — useful for cost tracking and business planning.</p></div>
         <div class="feat"><div class="corner"></div><div class="fx">09 — Reliability</div><h3>Test print &amp; setup</h3><p>Confirm any printer is connected with a single test-print button. Simple settings, no technical skills.</p></div>
@@ -508,15 +529,15 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
           <div class="per">Per year — billed annually</div>
           <ul>
             <li>1,300 pages of printing per month</li>
+            <li>Shop owner login &amp; QR generation</li>
             <li>Direct phone-to-printer connection</li>
             <li>Auto-print on arrival</li>
             <li>B&amp;W and colour printer support</li>
-            <li>Document and image printing</li>
             <li>Custom per-page pricing</li>
             <li>24×7 customer support</li>
             <li>7-day money-back guarantee</li>
           </ul>
-          <a class="btn dark" href="#/desk">Get started</a>
+          <a class="btn dark" href="#/login">Get started</a>
         </div>
         <div class="plan best">
           <div class="off">Best value</div>
@@ -533,7 +554,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
             <li>24×7 priority support</li>
             <li>7-day money-back guarantee</li>
           </ul>
-          <a class="btn" href="#/desk">Get unlimited</a>
+          <a class="btn" href="#/login">Get unlimited</a>
         </div>
       </div>
     </div>
@@ -542,10 +563,10 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   <section class="cta-band">
     <div class="wrap">
       <h2>Put a kiosk on your counter today</h2>
-      <p>Open the print station on the computer that runs your printer, print the QR poster for your wall — customers scan and print themselves. The demo is fully live: scan, send, watch it print.</p>
+      <p>Create your shop account, generate the QR and stick the poster on your wall. Customers scan and print themselves — you just watch the station work.</p>
       <div class="hero-cta">
-        <a class="btn" href="#/kiosk">Open customer kiosk</a>
-        <a class="btn ghost" href="#/desk">Open print station</a>
+        <a class="btn" href="#/login">Shop owner login</a>
+        <a class="btn ghost" href="#/kiosk">See customer view</a>
       </div>
     </div>
   </section>
@@ -554,13 +575,13 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
     <div class="foot-grid">
       <div>
         <a class="brand" href="#/" style="margin-bottom:14px"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3.5" height="3.5"/></svg></span><span><b style="color:#fffaf1">QR Print Kiosk</b><span>Self-service print system</span></span></a>
-        <p style="max-width:36ch;font-size:13.5px;line-height:1.75;">QR-based self-service printing for print shops, xerox centres and cyber cafes. Scan, upload, auto-print, auto-delete.</p>
+        <p style="max-width:36ch;font-size:13.5px;line-height:1.75;">QR-based self-service printing for print shops, xerox centres and cyber cafes. Owner logs in, customers scan, files print and vanish.</p>
         <p style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7d7160;">hussainali2023.github.io/Qr-print</p>
       </div>
       <div>
         <h4>Product</h4>
         <a href="#/kiosk">Customer kiosk</a>
-        <a href="#/desk">Print station</a>
+        <a href="#/login">Shop login</a>
         <a href="#features">Features</a>
         <a href="#pricing">Pricing</a>
       </div>
@@ -578,6 +599,47 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   </footer>
 </div>
 
+<!-- ============ LOGIN (shop owner) ============ -->
+<div id="view-login" class="view-login" hidden>
+  <div class="login-wrap">
+    <div class="login-brand">
+      <div class="eyebrow"><i></i> Shop owner access only</div>
+      <h1>Run your <em>print station</em></h1>
+      <p>Sign in to start your station and generate the shop QR. Only you need an account — your customers never sign up for anything.</p>
+      <ul class="login-points">
+        <li>Login once per device — session stays active</li>
+        <li>Generate &amp; print your shop QR in one tap</li>
+        <li>Customers scan and send — no account, no app</li>
+        <li>Rotate the QR anytime for a fresh shift</li>
+      </ul>
+    </div>
+    <div class="login-card">
+      <h2 id="authTitle">Welcome back</h2>
+      <p class="sub" id="authSub">Sign in to your print station</p>
+      <div class="seg2" id="authTabs">
+        <button data-v="signin" class="on">Sign in</button>
+        <button data-v="signup">Create shop account</button>
+      </div>
+      <div class="field" id="fShop" style="display:none">
+        <label>Shop name</label>
+        <input id="authShop" type="text" placeholder="e.g. Hussain Xerox &amp; Prints" autocomplete="organization">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="authEmail" type="email" placeholder="owner@shop.com" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="authPass" type="password" placeholder="••••••••" autocomplete="current-password">
+        <div class="sub" id="authPassHint">Minimum 6 characters</div>
+      </div>
+      <div class="auth-err" id="authErr"></div>
+      <button class="btn btn-submit" id="authGo" style="margin-top:20px">Sign in &amp; open station</button>
+      <p class="auth-note">Customers do not need an account — they simply scan your QR to print. This demo stores the shop login in this browser; wire it to a real backend for production security.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ============ KIOSK ============ -->
 <div id="view-kiosk" class="view-kiosk" hidden>
   <header class="kiosk-head">
@@ -585,7 +647,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
       <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3.5" height="3.5"/></svg></span>
     </a>
     <div class="shop" id="kioskShopName">QR Print Kiosk</div>
-    <div class="pill">Self-service · No app · No login</div>
+    <div class="pill">No account · No login · Just scan</div>
   </header>
   <div class="kiosk-wrap" id="kioskBody"></div>
 </div>
@@ -596,30 +658,23 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
     <a class="brand" href="#/">
       <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3.5" height="3.5"/></svg></span>
     </a>
-    <div class="shop">Print Station</div>
+    <div>
+      <div class="shop">Print Station</div>
+      <div class="owner" id="deskOwner">Signed in</div>
+    </div>
     <div class="clock" id="deskClock">--:--:--</div>
     <div class="tools">
       <button class="btn sm" id="btnPoster">Print shop QR</button>
       <button class="btn sm ghost" id="btnTestBw">Test print</button>
+      <button class="btn sm ghost" id="btnLogout" style="border-color:#6b2c26;color:#e0857c">Logout</button>
     </div>
   </header>
   <div class="desk-wrap">
 
-    <section class="conn-panel">
-      <div class="qr-box" id="connQr"></div>
-      <div class="conn-info">
-        <h2>Scan to connect &amp; print</h2>
-        <p>Keep this screen open on the computer connected to your printer. Customers scan the QR (or the printed poster) — their phone connects directly to this station and jobs print automatically.</p>
-        <div class="conn-meta">
-          <span class="chip wait" id="netChip"><i></i> Starting connection…</span>
-          <span class="conn-code" id="connCode">code: …</span>
-          <button class="btn sm ghost" id="btnCopyLink" style="border-color:#4c4133;color:#e9dcc4">Copy link</button>
-        </div>
-      </div>
-    </section>
+    <section class="conn-panel" id="connPanel"></section>
 
     <div class="note-bar">
-      ✦ Files travel <b>directly from the customer's phone to this station</b> over an encrypted peer-to-peer link — nothing is stored on any server. Both devices need internet for the initial handshake. If your network blocks peer connections, the app falls back to same-device mode automatically.
+      ✦ Files travel <b>directly from the customer's phone to this station</b> over an encrypted peer-to-peer link — nothing is stored on any server. Customers need no account. Both devices need internet for the initial handshake; if your network blocks peer connections, the app falls back to same-device mode.
     </div>
 
     <div class="stats" id="deskStats"></div>
@@ -671,7 +726,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
                 <button class="act ok" id="btnSaveCfg">Save settings</button>
                 <button class="act pr" id="btnTestClr">Test print page</button>
               </div>
-              <button class="act no" id="btnReset">Reset demo data</button>
+              <button class="act no" id="btnReset">Reset station data</button>
             </div>
           </div>
         </section>
@@ -825,11 +880,33 @@ function qrSvg(qr,quiet,dark,light){
     '<rect width="'+dim+'" height="'+dim+'" fill="'+light+'"/><path d="'+path+'" fill="'+dark+'"/></svg>';}
 
 /* =========================================================
-   CONFIG & PERSISTENT LOG (files never persisted in peer mode)
+   AUTH — shop owner accounts (customers never sign up)
    ========================================================= */
-var ORDERS_KEY='qrp_log_v3',FILES_KEY='qrp_files_v3',CFG_KEY='qrp_cfg_v3';
+var AUTH_KEY='qrp_accounts_v1',SESSION_KEY='qrp_session_v1';
 function loadJSON(k,d){try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}}
 function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function hashPw(str){
+  var h=5381,i;
+  for(i=0;i<str.length;i++){h=((h<<5)+h+str.charCodeAt(i))>>>0;}
+  var g=7919;
+  for(i=str.length-1;i>=0;i--){g=((g<<3)+g+str.charCodeAt(i)*13)>>>0;}
+  return 'h'+h.toString(36)+'-'+g.toString(36)+'-'+str.length.toString(36);
+}
+function getAccounts(){return loadJSON(AUTH_KEY,{});}
+function getSession(){
+  var s=loadJSON(SESSION_KEY,null);
+  if(s&&s.email&&getAccounts()[s.email])return s;
+  return null;
+}
+function setSession(email,shop){
+  saveJSON(SESSION_KEY,{email:email,shop:shop,at:Date.now()});
+}
+function isAuthed(){return !!getSession();}
+
+/* =========================================================
+   CONFIG & LOG
+   ========================================================= */
+var ORDERS_KEY='qrp_log_v3',FILES_KEY='qrp_files_v3',CFG_KEY='qrp_cfg_v3';
 var logdb=loadJSON(ORDERS_KEY,[]);
 var localFiles=loadJSON(FILES_KEY,{});
 var cfg=Object.assign({
@@ -860,11 +937,6 @@ function printHTML(inner,opts){
   else f.onload=function(){setTimeout(go,320);};
 }
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function guessMime(name){
-  var ext=(String(name).split('.').pop()||'').toLowerCase();
-  var map={pdf:'application/pdf',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',gif:'image/gif',webp:'image/webp',bmp:'image/bmp',txt:'text/plain',csv:'text/plain',doc:'application/msword',docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'};
-  return map[ext]||'application/octet-stream';
-}
 function orderPrintHTML(meta,dataUrl){
   var head='<div style="font:700 10px/1.6 Helvetica,Arial;letter-spacing:2px;color:#555;border:1.5px solid #999;display:inline-block;padding:6px 12px;margin-bottom:12px">#'+
     meta.no+' · '+(meta.color==='bw'?'BLACK &amp; WHITE':'COLOUR')+' · '+meta.pages+' PAGE(S) × '+meta.copies+' COPY(IES)'+
@@ -896,7 +968,7 @@ function testPrintHTML(name){
     '<div style="font:12px Helvetica;color:#444">If this page printed correctly, the printer is connected and ready.</div></div>';
 }
 function uploadUrl(){
-  var id=net.shopId||cfg.peerId||'';
+  var id=net.shopId||'';
   return location.origin+location.pathname+'#/kiosk'+(id?'?p='+encodeURIComponent(id):'');
 }
 function posterHTML(){
@@ -904,7 +976,7 @@ function posterHTML(){
   return '<div style="padding:10mm 12mm;text-align:center">'+
     '<div style="font:700 11px Helvetica;letter-spacing:4px;color:#f26522">SCAN · UPLOAD · PRINT</div>'+
     '<h1 style="font:700 42px/1.05 Helvetica;margin:12px 0 4px;text-transform:uppercase">'+esc(cfg.shop)+'</h1>'+
-    '<div style="font:15px Helvetica;color:#444;margin-bottom:8mm">Scan this QR code with your phone camera<br>to upload and print your documents instantly.</div>'+
+    '<div style="font:15px Helvetica;color:#444;margin-bottom:8mm">Scan this QR code with your phone camera<br>to upload and print your documents instantly.<br><b>No account needed.</b></div>'+
     '<div style="width:82mm;margin:0 auto">'+qrSvg(qr,4,'#111111','#ffffff')+'</div>'+
     '<div style="margin-top:8mm;display:flex;gap:5mm;justify-content:center;font:12px Helvetica;color:#333">'+
       '<div style="border:1.5px solid #111;padding:4mm 5mm"><b>1.</b> Scan QR</div>'+
@@ -927,44 +999,36 @@ function timeAgo(ts){
   return Math.floor(s/3600)+'h ago';}
 
 /* =========================================================
-   NETWORK — PeerJS (direct device-to-device) + local fallback
+   NETWORK — PeerJS direct link + local fallback
    ========================================================= */
 var net={
-  role:null,peer:null,conns:[],status:'idle',shopId:'',id:'',attempts:0
+  role:null,peer:null,conns:[],status:'idle',shopId:'',id:'',attempts:0,qrGenerated:false
 };
-var jobs=[];        /* live jobs at the print station */
-var printQ=[];      /* ready-to-print queue */
+var jobs=[];
+var printQ=[];
 var printing=false;
 
-function setChip(){
-  var chip=$('netChip');
-  if(!chip)return;
-  chip.className='chip '+(net.status==='online'?'on':(net.status==='local'?'off':'wait'));
-  var label={online:'Station online · waiting for scans',local:'Local mode · same device only',
-    connecting:'Connecting to network…',error:'Connection issue · retrying',idle:'Starting connection…'}[net.status]||'…';
-  chip.innerHTML='<i></i>'+label;
-  $('connCode').textContent='code: '+(net.shopId||cfg.peerId||'—');
-  if(net.status==='online'&&net.shopId){
-    try{$('connQr').innerHTML=qrSvg(makeQr(uploadUrl(),'H'),3,'#111111','#ffffff');}catch(e){}
-  } else if($('connQr')&&!$('connQr').innerHTML){
-    try{$('connQr').innerHTML=qrSvg(makeQr(location.origin+location.pathname+'#/desk','H'),3,'#111111','#ffffff');}catch(e){}
-  }
+function updateNav(){
+  var link=$('navStation');
+  if(!link)return;
+  if(isAuthed()){link.href='#/desk';link.textContent='Print Station';}
+  else{link.href='#/login';link.textContent='Shop Login';}
 }
 
 function initShopPeer(){
-  if(!window.Peer){net.status='local';setChip();return;}
+  if(!window.Peer){net.status='local';renderConnPanel();return;}
   if(net.peer)return;
-  net.status='connecting';setChip();
+  net.status='connecting';renderConnPanel();
   try{
     net.peer=new Peer(cfg.peerId||('qrp-'+Math.random().toString(36).slice(2,10)));
-  }catch(e){net.status='local';setChip();return;}
+  }catch(e){net.status='local';renderConnPanel();return;}
   net.peer.on('open',function(id){
     net.id=id;net.shopId=id;cfg.peerId=id;saveCfg();
-    net.status='online';setChip();renderDesk();
+    net.status='online';renderConnPanel();renderDesk();
   });
   net.peer.on('connection',function(conn){attachShopConn(conn);});
   net.peer.on('disconnected',function(){
-    net.status='error';setChip();
+    net.status='error';renderConnPanel();
     try{net.peer.reconnect();}catch(e){}
   });
   net.peer.on('error',function(err){
@@ -972,13 +1036,13 @@ function initShopPeer(){
       cfg.peerId='';saveCfg();
       try{net.peer.destroy();}catch(e){}
       net.peer=null;
-      try{net.peer=new Peer('qrp-'+Math.random().toString(36).slice(2,10));}catch(e){net.status='local';setChip();return;}
-      net.peer.on('open',function(id){net.id=id;net.shopId=id;cfg.peerId=id;saveCfg();net.status='online';setChip();renderDesk();});
+      try{net.peer=new Peer('qrp-'+Math.random().toString(36).slice(2,10));}catch(e){net.status='local';renderConnPanel();return;}
+      net.peer.on('open',function(id){net.id=id;net.shopId=id;cfg.peerId=id;saveCfg();net.status='online';renderConnPanel();renderDesk();});
       net.peer.on('connection',function(conn){attachShopConn(conn);});
-      net.peer.on('error',function(){net.status='error';setChip();});
+      net.peer.on('error',function(){net.status='error';renderConnPanel();});
       return;
     }
-    net.status='error';setChip();
+    net.status='error';renderConnPanel();
   });
 }
 
@@ -1001,7 +1065,7 @@ function handleShopData(d,conn){
   } else if(d.t==='chunk'){
     for(var i=0;i<jobs.length;i++){
       if(jobs[i].meta.id===d.id){
-        jobs[i].parts[d.i]=d.data;jobs[i].got=Math.max(jobs[i].got+0,jobs[i].got);
+        jobs[i].parts[d.i]=d.data;
         jobs[i].got=jobs[i].parts.filter(Boolean).length;
         jobs[i].n=d.n;jobs[i].status='receiving';
         renderDesk();break;
@@ -1012,7 +1076,7 @@ function handleShopData(d,conn){
       if(jobs[j].meta.id===d.id){
         var job=jobs[j];
         job.dataUrl='data:'+job.meta.mime+';base64,'+job.parts.join('');
-        job.parts=[];                     /* drop raw chunks immediately */
+        job.parts=[];
         job.status=cfg.autoPrint?'queued':'waiting';
         job.meta.no=cfg.nextNo++;
         saveCfg();
@@ -1048,7 +1112,7 @@ function processQueue(){
       copies:job.meta.copies,color:job.meta.color,price:job.meta.price,status:'done',createdAt:Date.now()});
     saveLog();
     notify(job,'done');
-    job.dataUrl=null;                     /* AUTO-DELETE */
+    job.dataUrl=null;                /* AUTO-DELETE after print */
     jobs=jobs.filter(function(x){return x!==job;});
     printing=false;
     renderDesk();
@@ -1094,7 +1158,6 @@ function tryConnect(){
 function handleCustomerData(d){
   if(!d||typeof d!=='object')return;
   if(d.t==='status'){
-    ks.live.received=ks.live.received||d.status!=='sending';
     if(d.status==='received'){ks.live.received=true;if(d.no)ks.ticketNo=d.no;}
     if(d.status==='printing'){ks.live.received=true;ks.live.printing=true;if(d.no)ks.ticketNo=d.no;}
     if(d.status==='done'){ks.live.received=true;ks.live.printing=true;ks.live.done=true;if(d.no)ks.ticketNo=d.no;}
@@ -1102,6 +1165,61 @@ function handleCustomerData(d){
     if(ks.view==='ticket')renderKiosk();
   }
 }
+
+/* =========================================================
+   LOGIN VIEW
+   ========================================================= */
+var authMode='signin';
+function setAuthMode(m){
+  authMode=m;
+  var tabs=$('authTabs');
+  Array.prototype.forEach.call(tabs.querySelectorAll('button'),function(b){
+    b.classList.toggle('on',b.getAttribute('data-v')===m);
+  });
+  $('fShop').style.display=m==='signup'?'':'none';
+  $('authTitle').textContent=m==='signup'?'Create your shop account':'Welcome back';
+  $('authSub').textContent=m==='signup'?'One account per shop — customers never sign up':'Sign in to your print station';
+  $('authGo').textContent=m==='signup'?'Create account & open station':'Sign in & open station';
+  $('authErr').classList.remove('on');
+}
+function authError(msg){
+  var e=$('authErr');
+  e.textContent=msg;
+  e.classList.add('on');
+}
+$('authTabs').addEventListener('click',function(e){
+  var b=e.target.closest('button');
+  if(b)setAuthMode(b.getAttribute('data-v'));
+});
+$('authGo').onclick=function(){
+  var email=$('authEmail').value.trim().toLowerCase();
+  var pass=$('authPass').value;
+  var shop=$('authShop').value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){authError('Enter a valid email address');return;}
+  if(pass.length<6){authError('Password must be at least 6 characters');return;}
+  var accounts=getAccounts();
+  if(authMode==='signup'){
+    if(!shop){authError('Enter your shop name');return;}
+    if(accounts[email]){authError('An account with this email already exists — sign in instead');return;}
+    accounts[email]={hash:hashPw(pass),shop:shop,createdAt:Date.now()};
+    saveJSON(AUTH_KEY,accounts);
+    cfg.shop=shop;saveCfg();
+    setSession(email,shop);
+    toast('Account created — welcome '+shop);
+  } else {
+    var acc=accounts[email];
+    if(!acc){authError('No account found — create a shop account first');return;}
+    if(acc.hash!==hashPw(pass)){authError('Incorrect password — try again');return;}
+    setSession(email,acc.shop);
+    if(acc.shop){cfg.shop=acc.shop;saveCfg();}
+    toast('Signed in — station unlocked');
+  }
+  updateNav();
+  location.hash='#/desk';
+};
+$('authPass').addEventListener('keydown',function(e){
+  if(e.key==='Enter')$('authGo').click();
+});
 
 /* =========================================================
    ROUTER
@@ -1120,10 +1238,19 @@ function parseHash(){
 }
 function route(){
   var r=parseHash();
-  var isKiosk=r.path.indexOf('/kiosk')===0,isDesk=r.path.indexOf('/desk')===0;
-  $('view-home').hidden=isKiosk||isDesk;
+  var isLogin=r.path.indexOf('/login')===0;
+  var isKiosk=r.path.indexOf('/kiosk')===0;
+  var isDesk=r.path.indexOf('/desk')===0;
+
+  if(isLogin&&isAuthed()){location.hash='#/desk';return;}
+  if(isDesk&&!isAuthed()){location.hash='#/login';return;}
+
+  $('view-home').hidden=isKiosk||isDesk||isLogin;
+  $('view-login').hidden=!isLogin;
   $('view-kiosk').hidden=!isKiosk;
   $('view-desk').hidden=!isDesk;
+
+  if(isLogin){setAuthMode(authMode);}
   if(isKiosk){
     var sid=r.params.p||'';
     if(!sid){try{sid=localStorage.getItem('qrp_last_shop')||'';}catch(e){}}
@@ -1131,16 +1258,17 @@ function route(){
     renderKiosk();
   }
   if(isDesk){
-    initShopPeer();
+    var s=getSession();
+    $('deskOwner').textContent='Signed in · '+(s?s.email:'');
     renderDesk();
-    setChip();
   }
+  updateNav();
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',function(){
   var h=(location.hash||'');
   if(h==='#how'||h==='#features'||h==='#pricing'){
-    $('view-home').hidden=false;$('view-kiosk').hidden=true;$('view-desk').hidden=true;
+    $('view-home').hidden=false;$('view-login').hidden=true;$('view-kiosk').hidden=true;$('view-desk').hidden=true;
     var t=document.querySelector(h);
     if(t)setTimeout(function(){t.scrollIntoView({behavior:'smooth'});},40);
     return;
@@ -1149,11 +1277,11 @@ window.addEventListener('hashchange',function(){
 });
 
 /* =========================================================
-   KIOSK (CUSTOMER) — no approval, direct send
+   KIOSK (CUSTOMER) — no account needed, ever
    ========================================================= */
 var ks={
   view:'form',fileData:null,fileName:'',fileType:'',fileSize:0,mime:'',
-  pages:1,copies:1,color:'bw',range:'',customer:'',
+  pages:1,copies:1,color:'bw',range:'',
   ticketNo:null,sending:0,live:{received:false,printing:false,done:false,error:null}
 };
 var ACCEPT=/\.(pdf|png|jpe?g|gif|webp|bmp|docx?|txt|csv)$/i;
@@ -1164,7 +1292,7 @@ function kioskTotal(){return Math.round(ks.pages*ks.copies*kioskRate()*100)/100;
 function connChipHTML(){
   if(net.status==='online'){
     return '<div class="conn-chip"><div class="dot on"></div><div>Connected to '+esc(cfg.shop)+
-      '<small>Direct encrypted link · jobs print instantly</small></div></div>';
+      '<small>Direct encrypted link · no account needed · jobs print instantly</small></div></div>';
   }
   if(net.status==='connecting'){
     return '<div class="conn-chip"><div class="dot wait"></div><div>Connecting to print station…<small>This takes a couple of seconds</small></div></div>';
@@ -1176,23 +1304,19 @@ function renderKiosk(){
   $('kioskShopName').textContent=cfg.shop;
   var box=$('kioskBody');
 
-  /* ---- sending progress ---- */
   if(ks.view==='sending'){
     box.innerHTML=connChipHTML()+
       '<div class="prog-wrap">'+
         '<h2>Sending to print station</h2>'+
         '<p>'+esc(ks.fileName)+' · '+Math.round(ks.fileSize/1024)+' KB</p>'+
-        '<div class="prog-pct" id="kPct">'+ks.sending+'%</div>'+
-        '<div class="bar"><i id="kBar" style="width:'+ks.sending+'%"></i></div>'+
+        '<div class="prog-pct">'+ks.sending+'%</div>'+
+        '<div class="bar"><i style="width:'+ks.sending+'%"></i></div>'+
       '</div>';
     return;
   }
 
-  /* ---- live ticket ---- */
   if(ks.view==='ticket'){
     var L=ks.live;
-    var stepDone=[true,L.received,L.printing,L.done];
-    var stepBad=[false,!!L.error,!!L.error&&L.printing,false];
     var steps=[
       ['File sent from your phone','Delivered to the print station'],
       ['Received at print station',L.received?('Ticket #'+(ks.ticketNo||'…')):'Waiting for the station to accept'],
@@ -1212,7 +1336,7 @@ function renderKiosk(){
     else if(L.printing)stamp='<div class="stamp-big hot">Printing</div>';
     box.innerHTML=connChipHTML()+
       '<div class="ticket-screen"><div class="big-ticket">'+stamp+
-        '<div class="bt-top"><div class="no">#'+(ks.ticketNo||'····')+'</div><div class="sub">Your ticket number</div></div>'+
+        '<div class="bt-top"><div class="no">'+(ks.ticketNo?'#'+ks.ticketNo:'····')+'</div><div class="sub">Your ticket number</div></div>'+
         '<div class="bt-body">'+
           '<dl class="t-rows" style="margin-bottom:20px">'+
             '<dt>File</dt><dd>'+esc(ks.fileName)+'</dd>'+
@@ -1227,14 +1351,13 @@ function renderKiosk(){
       '</div></div>';
     $('kNew').onclick=function(){
       ks={view:'form',fileData:null,fileName:'',fileType:'',fileSize:0,mime:'',pages:1,copies:1,
-        color:'bw',range:'',customer:'',ticketNo:null,sending:0,
+        color:'bw',range:'',ticketNo:null,sending:0,
         live:{received:false,printing:false,done:false,error:null}};
       renderKiosk();
     };
     return;
   }
 
-  /* ---- form ---- */
   var fileBlock=ks.fileData?
     '<div class="file-card"><div class="ftype">'+esc(ks.fileType)+'</div>'+
       '<div><div class="fname">'+esc(ks.fileName)+'</div>'+
@@ -1248,7 +1371,7 @@ function renderKiosk(){
 
   box.innerHTML=connChipHTML()+
     '<h1 class="k-title">Print your document</h1>'+
-    '<p class="k-lead">Upload a file, choose your options and send it — it prints on the counter printer automatically. No app, no login.</p>'+
+    '<p class="k-lead">No account, no login. Upload a file, choose your options and send it — it prints on the counter printer automatically.</p>'+
     fileBlock+
     '<div class="opt">'+
       '<h3>Print options</h3>'+
@@ -1263,8 +1386,6 @@ function renderKiosk(){
         '<div class="sub">Leave empty to print the whole file</div></div>'+
       '<div class="field"><label>Page count (if detected wrong)</label>'+
         '<input id="kPages" type="number" min="1" max="2000" value="'+ks.pages+'"></div>'+
-      '<div class="field"><label>Your name (optional)</label>'+
-        '<input id="kCustomer" type="text" placeholder="Shown at the counter" value="'+esc(ks.customer)+'"></div>'+
     '</div>'+
     '<div class="estimate">'+
       '<div><div class="lbl">Estimated total</div><div class="amt">₹'+kioskTotal()+'</div></div>'+
@@ -1272,7 +1393,7 @@ function renderKiosk(){
     '</div>'+
     '<button class="btn btn-submit" id="kSubmit" '+(ks.fileData?'':'disabled')+'>'+
       (net.status==='online'?'Print now — send to station':'Print now')+'</button>'+
-    '<p class="k-lead" style="margin-top:18px;font-size:12px;color:var(--muted);text-align:center">Your document is sent directly to the shop printer and deleted after printing.</p>';
+    '<p class="k-lead" style="margin-top:18px;font-size:12px;color:var(--muted);text-align:center">Your document is sent directly to the shop printer and deleted after printing. No personal details required.</p>';
 
   if($('kDrop')){
     var drop=$('kDrop'),fi=$('kFile');
@@ -1292,7 +1413,6 @@ function renderKiosk(){
   $('kMinus').onclick=function(){ks.copies=Math.max(1,ks.copies-1);renderKiosk();};
   $('kPlus').onclick=function(){ks.copies=Math.min(50,ks.copies+1);renderKiosk();};
   $('kRange').oninput=function(){ks.range=this.value;};
-  $('kCustomer').oninput=function(){ks.customer=this.value;};
   $('kPages').oninput=function(){ks.pages=Math.max(1,parseInt(this.value,10)||1);renderKiosk();};
   $('kSubmit').onclick=submitJob;
 }
@@ -1305,7 +1425,7 @@ function acceptFile(file){
     ks.fileData=r.result;
     ks.fileName=file.name;
     ks.fileSize=file.size;
-    ks.mime=(r.result.match(/^data:([^;]+)/)||[])[1]||guessMime(file.name);
+    ks.mime=(r.result.match(/^data:([^;]+)/)||[])[1]||'application/octet-stream';
     ks.fileType=(file.name.split('.').pop()||'FILE').toUpperCase().slice(0,4);
     if(/^data:image/.test(ks.fileData))ks.pages=1;
     else if(/pdf/i.test(ks.mime))ks.pages=estimatePdfPages(ks.fileData);
@@ -1330,10 +1450,9 @@ function submitJob(){
   var base64=ks.fileData.split(',')[1]||'';
   var meta={
     id:id,fileName:ks.fileName,mime:ks.mime,pages:ks.pages,copies:ks.copies,
-    color:ks.color,range:ks.range,customer:ks.customer,price:kioskTotal()
+    color:ks.color,range:ks.range,price:kioskTotal()
   };
 
-  /* peer mode: send directly to the print station */
   if(net.status==='online'&&net.conns.length){
     var conn=net.conns[0];
     var CH=16*1024,n=Math.max(1,Math.ceil(base64.length/CH));
@@ -1352,7 +1471,7 @@ function submitJob(){
       }
       ks.sending=Math.round(i/n*100);
       if(ks.view==='sending'){
-        var pct=$('kPct'),bar=$('kBar');
+        var pct=document.querySelector('.prog-pct'),bar=document.querySelector('.bar i');
         if(pct)pct.textContent=ks.sending+'%';
         if(bar)bar.style.width=ks.sending+'%';
       }
@@ -1360,7 +1479,6 @@ function submitJob(){
       else{
         try{conn.send({t:'done',id:id});}catch(e){}
         ks.view='ticket';
-        ks.ticketNo=null;
         renderKiosk();
         toast('Sent — printing shortly');
       }
@@ -1368,7 +1486,7 @@ function submitJob(){
     return;
   }
 
-  /* local fallback (same device / offline): hand over via storage */
+  /* local fallback (same device) */
   var job={id:id,no:cfg.nextNo++,status:'pending',createdAt:Date.now(),meta:meta};
   meta.no=job.no;
   try{
@@ -1381,21 +1499,91 @@ function submitJob(){
   ks.live.received=true;
   renderKiosk();
   toast('Job #'+job.no+' queued locally');
-  /* local jobs are picked up by the print station on this device */
   window.__localQueue=window.__localQueue||[];
   window.__localQueue.push({meta:meta,dataUrl:ks.fileData,local:true});
 }
 
 /* =========================================================
-   DESK (PRINT STATION)
+   DESK (PRINT STATION) — login-protected
    ========================================================= */
+function renderConnPanel(){
+  var host=$('connPanel');
+  if(!host)return;
+
+  if(!net.qrGenerated){
+    host.innerHTML=
+      '<div class="qr-box empty"><span>QR not generated</span></div>'+
+      '<div class="conn-info">'+
+        '<h2>Generate your shop QR</h2>'+
+        '<p>Tap the button below to create this shift\'s connection QR. Print the poster and put it on your counter — customers scan it to send files straight to this printer. No customer account required.</p>'+
+        '<div class="conn-meta">'+
+          '<button class="btn" id="btnGenQr">Generate QR code</button>'+
+          '<span class="chip wait"><i></i> Station idle</span>'+
+        '</div>'+
+      '</div>';
+    $('btnGenQr').onclick=generateQr;
+    return;
+  }
+
+  var statusLabel,chipClass;
+  if(net.status==='online'){statusLabel='Station online · waiting for scans';chipClass='on';}
+  else if(net.status==='connecting'){statusLabel='Starting connection…';chipClass='wait';}
+  else if(net.status==='local'){statusLabel='Local mode · same device only';chipClass='off';}
+  else {statusLabel='Connection issue · retrying';chipClass='off';}
+
+  var qrHtml='';
+  if(net.status==='online'&&net.shopId){
+    try{qrHtml=qrSvg(makeQr(uploadUrl(),'H'),3,'#111111','#ffffff');}catch(e){}
+  }
+  host.innerHTML=
+    '<div class="qr-box">'+(qrHtml||'<span style="display:block;text-align:center;padding:70px 0;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:#8d8171">CONNECTING…</span>')+'</div>'+
+    '<div class="conn-info">'+
+      '<h2>Scan to connect &amp; print</h2>'+
+      '<p>Customers scan this QR (or your printed poster) — their phone connects directly to this station and jobs print automatically. Rotate the code at the start of each shift with the New QR button.</p>'+
+      '<div class="conn-meta">'+
+        '<span class="chip '+chipClass+'"><i></i> '+statusLabel+'</span>'+
+        '<span class="conn-code">code: '+(net.shopId||'…')+'</span>'+
+        '<button class="btn sm ghost" id="btnCopyLink" style="border-color:#4c4133;color:#e9dcc4">Copy link</button>'+
+        '<button class="btn sm ghost" id="btnNewQr" style="border-color:#4c4133;color:#e9dcc4">New QR</button>'+
+      '</div>'+
+    '</div>';
+
+  if($('btnCopyLink'))$('btnCopyLink').onclick=function(){
+    var url=uploadUrl();
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(function(){toast('Connection link copied');},function(){toast(url);});
+    } else {toast(url);}
+  };
+  if($('btnNewQr'))$('btnNewQr').onclick=rotateQr;
+}
+
+function generateQr(){
+  net.qrGenerated=true;
+  initShopPeer();
+  renderConnPanel();
+  toast('Generating your shop QR…');
+}
+function rotateQr(){
+  try{if(net.peer)net.peer.destroy();}catch(e){}
+  net.peer=null;net.conns=[];net.shopId='';net.status='connecting';
+  cfg.peerId='';saveCfg();
+  initShopPeer();
+  renderConnPanel();
+  toast('New QR generated — reprint your poster');
+}
+
 function renderDesk(){
+  var s=getSession();
+  if(s)$('deskOwner').textContent='Signed in · '+s.email;
+
   $('setShop').value=cfg.shop;
   $('setBwPrinter').value=cfg.bwPrinter;
   $('setClrPrinter').value=cfg.colorPrinter;
   $('setBwRate').value=cfg.bwRate;
   $('setClrRate').value=cfg.colorRate;
   $('setAutoPrint').checked=!!cfg.autoPrint;
+
+  renderConnPanel();
 
   var now=new Date(),monthKey=now.getFullYear()+'-'+now.getMonth();
   var monthPages=0,monthJobs=0,monthRevenue=0;
@@ -1432,10 +1620,9 @@ function renderDesk(){
   } else {
     l.innerHTML=recent.map(function(o){
       return '<div class="log-item"><div class="no">#'+o.no+'</div><div class="fname">'+esc(o.fileName)+'</div>'+
-        '<div class="st '+(o.status==='done'?'done':(o.status==='pending'?'printing':o.status))+'">'+(o.status==='done'?'printed':o.status)+'</div></div>';
+        '<div class="st '+(o.status==='done'?'done':'printing')+'">'+(o.status==='done'?'printed':o.status)+'</div></div>';
     }).join('');
   }
-  setChip();
 }
 
 function jobCard(j){
@@ -1444,12 +1631,12 @@ function jobCard(j){
   var meta=j.meta;
   var printer=meta.color==='bw'?cfg.bwPrinter:cfg.colorPrinter;
   var pct=j.status==='receiving'?Math.round((j.got/(j.n||1))*100):100;
-  var badgeClass=j.status==='receiving'?'receiving':(j.status==='printing'?'printing':(j.status==='waiting'?'queued':'queued'));
+  var badgeClass=j.status==='receiving'?'receiving':(j.status==='printing'?'printing':'queued');
   el.innerHTML=
     '<div class="badge '+badgeClass+'">'+j.status+'</div>'+
     '<div class="head">'+
       '<div class="no">#'+(meta.no||'…')+'</div>'+
-      '<div class="file">'+esc(meta.fileName)+(meta.customer?' <span style="color:var(--muted);font-weight:400">· '+esc(meta.customer)+'</span>':'')+'</div>'+
+      '<div class="file">'+esc(meta.fileName)+'</div>'+
       '<div class="when">'+timeAgo(j.createdAt)+'</div>'+
     '</div>'+
     (j.status==='receiving'?'<div class="mini-bar"><i style="width:'+pct+'%"></i></div>':'')+
@@ -1465,7 +1652,7 @@ function jobCard(j){
       '<button class="act no">'+(j.status==='printing'?'Printing…':'Cancel job')+'</button>'+
     '</div>';
   var btns=el.querySelectorAll('.act');
-  btns.forEach(function(b,i){
+  Array.prototype.forEach.call(btns,function(b){
     if(b.textContent.indexOf('Print now')===0){
       b.onclick=function(){enqueue(j);};
     } else {
@@ -1481,7 +1668,7 @@ function jobCard(j){
   return el;
 }
 
-/* local fallback pump: jobs handed over on this device get printed here */
+/* local fallback pump */
 setInterval(function(){
   if($('view-desk').hidden)return;
   var q=window.__localQueue;
@@ -1495,6 +1682,7 @@ setInterval(function(){
 
 /* desk tools */
 $('btnPoster').onclick=function(){
+  if(!net.qrGenerated||!net.shopId){toast('Generate your QR first');return;}
   printHTML(posterHTML(),{size:'A4',margin:'0'});
   toast('QR poster sent to printer');
 };
@@ -1506,11 +1694,13 @@ $('btnTestClr').onclick=function(){
   printHTML(testPrintHTML(cfg.colorPrinter),{size:'A4'});
   toast('Test page sent to '+cfg.colorPrinter);
 };
-$('btnCopyLink').onclick=function(){
-  var url=uploadUrl();
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(function(){toast('Connection link copied');},function(){toast(url);});
-  } else {toast(url);}
+$('btnLogout').onclick=function(){
+  try{if(net.peer)net.peer.destroy();}catch(e){}
+  net.peer=null;net.conns=[];net.shopId='';net.qrGenerated=false;net.status='idle';
+  try{localStorage.removeItem(SESSION_KEY);}catch(e){}
+  updateNav();
+  location.hash='#/login';
+  toast('Signed out — station locked');
 };
 $('btnSaveCfg').onclick=function(){
   cfg.shop=$('setShop').value.trim()||cfg.shop;
@@ -1546,4 +1736,4 @@ route();
 })();
 </script>
 </body>
-  </html>
+</html>
