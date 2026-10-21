@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>QR Print Kiosk — Self-Service Print Shop System</title>
-<meta name="description" content="QR-based self-service print kiosk. Shop owner logs in, generates QR, customers scan and print — auto-print, auto-delete.">
+<meta name="description" content="QR-based self-service print kiosk. Multi-user, multi-file, borderless zero-header auto-print.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23f26522'/%3E%3Crect x='6' y='6' width='8' height='8' fill='%23fff'/%3E%3Crect x='18' y='6' width='8' height='8' fill='%23fff'/%3E%3Crect x='6' y='18' width='8' height='8' fill='%23fff'/%3E%3Crect x='19' y='19' width='5' height='5' fill='%23fff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -193,7 +193,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .kiosk-head .shop{font-family:var(--disp);font-size:24px;letter-spacing:.06em;}
 .kiosk-head .pill{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;
   border:1px solid #4c4133;padding:7px 12px;color:#d9cdb8;}
-.kiosk-wrap{max-width:660px;margin:0 auto;padding:30px clamp(16px,4vw,24px) 90px;}
+.kiosk-wrap{max-width:680px;margin:0 auto;padding:30px clamp(16px,4vw,24px) 90px;}
 .conn-chip{display:flex;align-items:center;gap:11px;background:var(--card);border:1.5px solid var(--ink);
   padding:13px 16px;margin-bottom:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;}
 .conn-chip .dot{width:10px;height:10px;flex:none;}
@@ -206,20 +206,23 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .k-title{font-family:var(--disp);font-size:clamp(34px,7vw,52px);line-height:.95;text-transform:uppercase;margin:6px 0 8px;}
 .k-lead{color:var(--ink2);margin:0 0 24px;font-size:14.5px;}
-.drop{border:2px dashed var(--ink);background:var(--card);padding:34px 22px;text-align:center;cursor:pointer;
-  transition:background .2s,border-color .2s,transform .2s;}
+.drop{border:2px dashed var(--ink);background:var(--card);padding:30px 22px;text-align:center;cursor:pointer;
+  transition:background .2s,border-color .2s,transform .2s;margin-bottom:16px;}
 .drop:hover,.drop.over{background:#fff;border-color:var(--accent);transform:translateY(-2px);}
 .drop .icon{width:52px;height:52px;margin:0 auto 13px;border:2px solid var(--ink);display:grid;place-items:center;}
 .drop .icon svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.7;}
 .drop b{display:block;font-family:var(--disp);font-size:21px;letter-spacing:.08em;text-transform:uppercase;}
 .drop span{display:block;color:var(--muted);font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;margin-top:8px;}
-.file-card{background:var(--card);border:1.5px solid var(--ink);padding:18px;display:flex;gap:14px;align-items:flex-start;
-  box-shadow:6px 6px 0 rgba(23,19,16,.12);margin-bottom:22px;}
+.file-list{display:grid;gap:10px;margin-bottom:18px;}
+.file-card{background:var(--card);border:1.5px solid var(--ink);padding:14px 16px;display:flex;gap:12px;align-items:center;
+  box-shadow:5px 5px 0 rgba(23,19,16,.10);}
 .file-card .ftype{background:var(--accent);color:#fff;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;padding:6px 9px;flex:none;}
-.file-card .fname{font-weight:600;word-break:break-all;font-size:14px;}
-.file-card .fmeta{font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-top:5px;}
-.file-card .rm{margin-left:auto;background:transparent;border:1.5px solid var(--line);cursor:pointer;
-  font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:7px 10px;flex:none;}
+.file-card .fname{font-weight:600;word-break:break-all;font-size:13.5px;}
+.file-card .fmeta{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;margin-top:3px;}
+.file-card .fpages{display:flex;align-items:center;gap:6px;margin-left:auto;font-family:var(--mono);font-size:9.5px;text-transform:uppercase;color:var(--ink2);}
+.file-card .fpages input{width:54px;padding:5px 6px;border:1.5px solid var(--ink);background:var(--paper);font-family:var(--mono);font-size:11px;text-align:center;}
+.file-card .rm{background:transparent;border:1.5px solid var(--line);cursor:pointer;
+  font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 9px;flex:none;}
 .file-card .rm:hover{border-color:var(--no);color:var(--no);}
 .opt{background:var(--card);border:1.5px solid var(--ink);padding:20px;margin-bottom:16px;}
 .opt h3{font-family:var(--mono);font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;}
@@ -251,8 +254,8 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .ticket-screen{max-width:560px;margin:0 auto;}
 .big-ticket{background:var(--card);border:1.5px solid var(--ink);box-shadow:10px 10px 0 rgba(23,19,16,.15);position:relative;}
 .bt-top{padding:26px 24px 20px;border-bottom:2px dashed var(--line);text-align:center;}
-.bt-top .no{font-family:var(--disp);font-size:74px;line-height:.9;letter-spacing:.02em;}
-.bt-top .sub{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);}
+.bt-top .no{font-family:var(--disp);font-size:62px;line-height:.95;letter-spacing:.02em;}
+.bt-top .sub{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
 .bt-body{padding:22px 24px 26px;}
 .timeline{list-style:none;margin:0;padding:0;display:grid;gap:0;}
 .timeline li{display:flex;gap:14px;align-items:flex-start;padding:11px 0;position:relative;}
@@ -321,15 +324,19 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .ocard .no{font-family:var(--disp);font-size:32px;line-height:.9;}
 .ocard .file{font-weight:600;word-break:break-all;font-size:13.5px;}
 .ocard .when{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
-.ocard dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0 0 13px;font-family:var(--mono);font-size:10.5px;}
+.ocard-grid{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:start;margin-bottom:12px;}
+.ocard-thumb{width:110px;height:130px;border:1px solid var(--line);background:#f0eae0;display:grid;place-items:center;overflow:hidden;}
+.ocard-thumb img{width:100%;height:100%;object-fit:contain;background:#fff;}
+.ocard-thumb span{font-family:var(--mono);font-size:9px;color:var(--muted);text-align:center;padding:6px;}
+.ocard dl{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0;font-family:var(--mono);font-size:10.5px;}
 .ocard dt{color:var(--muted);letter-spacing:.12em;text-transform:uppercase;}
 .ocard dd{margin:0;font-weight:500;}
 .route{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px dashed var(--line);
   padding:9px 12px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:13px;}
 .route .arrow{color:var(--accent);}
 .ocard .actions{display:flex;gap:9px;flex-wrap:wrap;}
-.act{flex:1 1 140px;justify-content:center;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.2em;
-  text-transform:uppercase;font-weight:600;padding:13px 12px;border:1.5px solid;transition:.18s;}
+.act{flex:1 1 120px;justify-content:center;cursor:pointer;font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  text-transform:uppercase;font-weight:600;padding:12px 10px;border:1.5px solid;transition:.18s;}
 .act.ok{background:var(--ok);border-color:var(--ok);color:#fff;}
 .act.ok:hover{background:#14633c;border-color:#14633c;}
 .act.no{background:transparent;border-color:var(--no);color:var(--no);}
@@ -367,37 +374,16 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 .note-bar{background:#241f18;border:1px solid var(--line-dark);border-left:3px solid var(--gold);
   padding:13px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:#c9b998;
   text-transform:uppercase;line-height:1.9;margin-bottom:18px;}
+.note-bar code{background:#141210;color:var(--gold);padding:3px 7px;border:1px solid var(--line-dark);}
 
-/* ===== PRINT OVERLAY ===== */
-.print-overlay{position:fixed;inset:0;z-index:400;background:rgba(20,18,16,.88);
-  display:flex;align-items:center;justify-content:center;padding:22px;}
-.po-card{background:var(--card);border:1.5px solid var(--ink);max-width:460px;width:100%;
-  padding:32px 28px;box-shadow:14px 14px 0 rgba(242,101,34,.4);text-align:center;}
-.po-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent-dark);}
-.po-card h2{font-family:var(--disp);font-size:clamp(24px,5vw,34px);line-height:1.05;text-transform:uppercase;margin:12px 0 6px;word-break:break-word;}
-.po-card .meta{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 20px;}
-.po-count{font-family:var(--disp);font-size:76px;line-height:1;color:var(--accent);}
-.po-auto{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink2);margin:6px 0 22px;}
-.po-actions{display:grid;gap:10px;}
-.po-actions .btn{justify-content:center;}
-.po-hint{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);line-height:1.9;margin:18px 0 0;}
+/* PREVIEW MODAL FOR SHOP OWNER */
+.preview-modal{position:fixed;inset:0;z-index:450;background:rgba(15,13,11,.9);display:flex;flex-direction:column;padding:24px;}
+.pm-head{display:flex;justify-content:space-between;align-items:center;color:#fff;max-width:960px;width:100%;margin:0 auto 14px;}
+.pm-head h3{font-family:var(--disp);font-size:28px;letter-spacing:.05em;margin:0;}
+.pm-body{flex:1;max-width:960px;width:100%;margin:0 auto;background:#26211b;border:1px solid var(--line-dark);overflow:auto;padding:20px;display:grid;gap:16px;justify-items:center;}
+.pm-body img{max-width:100%;background:#fff;box-shadow:0 6px 24px rgba(0,0,0,.5);}
 
-/* ===== PRINT ENGINE (main window) ===== */
-#printRoot{display:none;}
-@media print{
-  .grain,.nav,.print-overlay,.toast{display:none !important;}
-  body{background:#fff !important;padding:0;}
-  body > *{display:none !important;}
-  #printRoot{display:block !important;}
-  #printRoot{color:#111;font-family:Helvetica,Arial,sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
-  #printRoot .pg{break-after:page;page-break-after:always;display:flex;justify-content:center;padding:2mm 0;}
-  #printRoot .pg:last-child{break-after:auto;page-break-after:auto;}
-  #printRoot img{max-width:100%;max-height:262mm;display:block;}
-  #printRoot pre{white-space:pre-wrap;font:11.5px/1.6 monospace;}
-  #printRoot .head-tag{font:700 10px/1.6 Helvetica,Arial;letter-spacing:2px;color:#555;
-    border:1.5px solid #999;display:inline-block;padding:6px 12px;margin-bottom:12px;}
-}
-.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:300;
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:500;
   background:var(--ink);color:#f6f1e7;border-left:3px solid var(--accent);
   font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;
   padding:13px 20px;opacity:0;pointer-events:none;transition:opacity .26s,transform .26s;}
@@ -406,7 +392,21 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
-<div id="printRoot" aria-hidden="true"></div>
+
+<!-- Hidden background iframe for clean, zero-redirect printing -->
+<iframe id="silentPrintFrame" style="position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;" aria-hidden="true"></iframe>
+
+<!-- Document preview modal for shop owner -->
+<div id="previewModal" class="preview-modal" hidden>
+  <div class="pm-head">
+    <h3 id="pmTitle">Document Preview</h3>
+    <div style="display:flex;gap:10px;">
+      <button class="btn sm" id="pmPrintNow">Print Now</button>
+      <button class="btn sm ghost" id="pmClose">Close Preview</button>
+    </div>
+  </div>
+  <div class="pm-body" id="pmBody"></div>
+</div>
 
 <nav class="nav">
   <a class="brand" href="#/">
@@ -427,32 +427,32 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   <header class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow"><i></i> Owner logs in · customers just scan</div>
+        <div class="eyebrow"><i></i> Multi-user · Multi-file · Zero-header auto-print</div>
         <h1 class="hero-title">Turn your print shop into a <em>self-service kiosk</em></h1>
-        <p class="hero-sub">Log in to your print station and generate your shop QR. Customers <b>scan it, upload their file and it prints instantly</b> — no customer account, no app, no queues.</p>
+        <p class="hero-sub">Log in to your print station and display your shop QR. Multiple customers <b>scan it simultaneously, upload multiple files, and they print automatically</b> without headers or footers.</p>
         <div class="hero-cta">
           <a class="btn" href="#/kiosk">Open customer kiosk</a>
           <a class="btn ghost" href="#/login">Shop owner login</a>
         </div>
         <div class="trust">
-          <span>No customer sign-up</span><span>Auto-print on arrival</span><span>Auto file deletion</span>
+          <span>Multi-file upload</span><span>Multi-user simultaneous</span><span>Zero header/footer</span>
         </div>
       </div>
       <div class="ticket-stack">
         <article class="ticket t1">
           <div class="t-head"><div class="t-no">#4821</div><div class="t-tag hot">Printing now</div></div>
           <dl class="t-rows">
-            <dt>File</dt><dd>assignment-final.pdf</dd>
+            <dt>Files</dt><dd>3 documents (PDF + JPG)</dd>
             <dt>Pages</dt><dd>12 × 2 copies</dd>
-            <dt>Mode</dt><dd>B&amp;W · A4</dd>
-            <dt>Account</dt><dd>None needed</dd>
+            <dt>Mode</dt><dd>B&amp;W · Clean A4</dd>
+            <dt>Headers</dt><dd>None (Borderless)</dd>
           </dl>
-          <div class="t-foot"><span style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)">SCANNED → PRINTED IN</span><div class="t-price">18s</div></div>
+          <div class="t-foot"><span style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)">SCANNED → PRINTED IN</span><div class="t-price">14s</div></div>
         </article>
         <article class="ticket t2">
           <div class="t-head"><div class="t-no">#4822</div><div class="t-tag wait">Receiving…</div></div>
           <dl class="t-rows">
-            <dt>File</dt><dd>photo-01.jpg</dd>
+            <dt>File</dt><dd>photo-01.jpg + 2 more</dd>
             <dt>Mode</dt><dd>Colour · 1 copy</dd>
           </dl>
           <div class="t-foot"><span style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--muted)">ROUTE</span><div style="font-family:var(--mono);font-size:10.5px">→ Canon G3010</div></div>
@@ -471,9 +471,8 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
 
   <div class="marquee">
     <div class="mq-track">
-      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
-      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
-      <span>Owner Login ✕ Generate QR ✕ Scan ✕ Auto-Print ✕ Auto-Delete</span>
+      <span>Multi-User ✕ Multi-File ✕ Zero Header/Footer ✕ Instant Auto-Print ✕ Auto-Delete</span>
+      <span>Multi-User ✕ Multi-File ✕ Zero Header/Footer ✕ Instant Auto-Print ✕ Auto-Delete</span>
     </div>
   </div>
 
@@ -484,13 +483,13 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
           <div class="sec-kicker">✦ Simple 3-step flow</div>
           <h2 class="sec-title">From QR scan to printed page <u>in under 60 seconds</u></h2>
         </div>
-        <p class="sec-note">Only the shop owner has an account. Customers scan and send — nothing else.</p>
+        <p class="sec-note">Only the shop owner has an account. Multiple customers scan and send at the same time.</p>
       </div>
       <div class="steps">
-        <div class="step"><div class="step-n">01</div><h3>Owner logs in</h3><p>Sign in once on the device connected to your printer and generate your shop QR code.</p></div>
-        <div class="step"><div class="step-n">02</div><h3>Customer scans &amp; sends</h3><p>The QR opens the upload page — no account, no login. The file goes straight to your station.</p></div>
-        <div class="step"><div class="step-n">03</div><h3>Auto-print &amp; auto-delete</h3><p>The print dialog opens itself and the job prints on the right printer — then the file is wiped forever.</p></div>
-        <div class="step"><div class="step-n">+</div><h3>Works on phone &amp; PC</h3><p>Run the station on a desktop for one-tap printing, or on a phone at the counter. Same app, same flow.</p></div>
+        <div class="step"><div class="step-n">01</div><h3>Owner logs in</h3><p>Sign in once on the PC connected to your printer. Launch Chrome with <b>--kiosk-printing</b> for 100% hands-free printing.</p></div>
+        <div class="step"><div class="step-n">02</div><h3>Customers scan &amp; send</h3><p>Multiple customers can scan the QR simultaneously and select multiple files at once.</p></div>
+        <div class="step"><div class="step-n">03</div><h3>Clean auto-print</h3><p>Every file renders at 300 DPI without any headers, footers, or URL watermarks and prints immediately.</p></div>
+        <div class="step"><div class="step-n">+</div><h3>Live preview &amp; wipe</h3><p>Preview pages right on the station dashboard if needed. Once printed, files auto-delete for total privacy.</p></div>
       </div>
     </div>
   </section>
@@ -505,15 +504,12 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
         <p class="sec-note">Built for xerox centres, cyber cafes, campus copy shops and stationery stores.</p>
       </div>
       <div class="feat-grid">
-        <div class="feat"><div class="corner"></div><div class="fx">01 — Access</div><h3>Owner login, customer free</h3><p>The print station is protected by your shop login. Customers never create accounts — they just scan and print.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">02 — QR</div><h3>Instant QR connection</h3><p>Your shop QR is always live when your station is open. Customers connect in under a second upon scanning.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">03 — Printing</div><h3>Real auto-print engine</h3><p>PDFs render to true pages, images are preloaded, and the print dialog fires automatically the moment a job lands.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">04 — Routing</div><h3>B&amp;W / colour auto-routing</h3><p>Connect separate black-and-white and colour printers. Jobs route themselves based on the customer's choice.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">05 — Privacy</div><h3>Auto file cleanup</h3><p>Files are deleted the instant printing completes. Customers' documents never stay on your machine.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">06 — Devices</div><h3>Phone &amp; desktop ready</h3><p>Run the station on the PC next to your printer or on a counter phone — the print engine works on both.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">07 — Billing</div><h3>Custom per-page pricing</h3><p>Set your own rate for B&amp;W and colour pages separately. The customer sees the estimate before sending.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">08 — Insights</div><h3>Monthly usage tracking</h3><p>Pages printed this month and estimated revenue — useful for cost tracking and business planning.</p></div>
-        <div class="feat"><div class="corner"></div><div class="fx">09 — Reliability</div><h3>Test print &amp; reprint</h3><p>Confirm any printer works with one test page, and reprint the last job with a single click if needed.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">01 — Multi-User</div><h3>Simultaneous customers</h3><p>5 or 10 customers can scan the poster and upload files at the exact same time without disconnecting each other.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">02 — Multi-File</div><h3>Batch file uploads</h3><p>Customers can select multiple PDFs and images in one go and send them as a single batch.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">03 — Clean Print</div><h3>Zero header &amp; footer</h3><p>Prints the exact customer document with `@page { margin: 0 }` — no ticket banners, no URLs, no dates.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">04 — Zero-Touch</div><h3>Instant background print</h3><p>Uses a hidden background print frame so the shop dashboard never redirects or freezes.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">05 — Preview</div><h3>Live document viewer</h3><p>The shop owner can see thumbnail previews and inspect full pages of any incoming file on the dashboard.</p></div>
+        <div class="feat"><div class="corner"></div><div class="fx">06 — Privacy</div><h3>Auto file cleanup</h3><p>Files are wiped the instant printing finishes. Customers' documents never clutter your PC.</p></div>
       </div>
     </div>
   </section>
@@ -536,11 +532,9 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
           <ul>
             <li>1,300 pages of printing per month</li>
             <li>Shop owner login &amp; QR generation</li>
-            <li>Auto-print on arrival</li>
-            <li>B&amp;W and colour printer support</li>
+            <li>Multi-user &amp; multi-file support</li>
+            <li>Zero-header clean auto-print</li>
             <li>Custom per-page pricing</li>
-            <li>24×7 customer support</li>
-            <li>7-day money-back guarantee</li>
           </ul>
           <a class="btn dark" href="#/login">Get started</a>
         </div>
@@ -553,11 +547,8 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
             <li>Unlimited page printing</li>
             <li>Everything in Starter</li>
             <li>Priority transfer engine</li>
-            <li>Monthly business reports</li>
-            <li>Multi-counter support</li>
-            <li>Free setup assistance</li>
+            <li>Local silent-print webhook support</li>
             <li>24×7 priority support</li>
-            <li>7-day money-back guarantee</li>
           </ul>
           <a class="btn" href="#/login">Get unlimited</a>
         </div>
@@ -565,38 +556,7 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
     </div>
   </section>
 
-  <section class="cta-band">
-    <div class="wrap">
-      <h2>Put a kiosk on your counter today</h2>
-      <p>Create your shop account, generate the QR and stick the poster on your wall. Customers scan and print themselves — the station prints automatically.</p>
-      <div class="hero-cta">
-        <a class="btn" href="#/login">Shop owner login</a>
-        <a class="btn ghost" href="#/kiosk">See customer view</a>
-      </div>
-    </div>
-  </section>
-
   <footer class="footer">
-    <div class="foot-grid">
-      <div>
-        <a class="brand" href="#/" style="margin-bottom:14px"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3.5" height="3.5"/></svg></span><span><b style="color:#fffaf1">QR Print Kiosk</b><span>Self-service print system</span></span></a>
-        <p style="max-width:36ch;font-size:13.5px;line-height:1.75;">QR-based self-service printing for print shops, xerox centres and cyber cafes. Owner logs in, customers scan, files print and vanish.</p>
-        <p style="font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#7d7160;">hussainali2023.github.io/Qr-print</p>
-      </div>
-      <div>
-        <h4>Product</h4>
-        <a href="#/kiosk">Customer kiosk</a>
-        <a href="#/login">Shop login</a>
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-      </div>
-      <div>
-        <h4>Support</h4>
-        <a href="https://hussainali2023.github.io/Qr-print/" target="_blank" rel="noopener">Live site ↗</a>
-        <a href="https://github.com/hussainali2023/Qr-print" target="_blank" rel="noopener">Source code ↗</a>
-        <a href="#how">How it works</a>
-      </div>
-    </div>
     <div class="foot-bottom">
       <span>© <span id="year">2026</span> QR Print Kiosk — All rights reserved</span>
       <span>Print · Scan · Automate</span>
@@ -610,12 +570,12 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
     <div class="login-brand">
       <div class="eyebrow"><i></i> Shop owner access only</div>
       <h1>Run your <em>print station</em></h1>
-      <p>Sign in to start your station and generate the shop QR. Only you need an account — your customers never sign up for anything.</p>
+      <p>Sign in to start your station and display the shop QR. Only you need an account — your customers never sign up for anything.</p>
       <ul class="login-points">
-        <li>Login once per device — session stays active</li>
-        <li>Instant QR connection when station opens</li>
-        <li>Customers scan and send — no account, no app</li>
-        <li>Works on desktop and mobile stations</li>
+        <li>Supports multiple customers connected at once</li>
+        <li>Customers can upload multiple files in one batch</li>
+        <li>Prints clean pages without headers or footers</li>
+        <li>Never redirects away from your dashboard</li>
       </ul>
     </div>
     <div class="login-card">
@@ -640,24 +600,23 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
       </div>
       <div class="auth-err" id="authErr"></div>
       <button class="btn btn-submit" id="authGo" style="margin-top:20px">Sign in &amp; open station</button>
-      <p class="auth-note">Customers do not need an account — they simply scan your QR to print. This demo stores the shop login in this browser; wire it to a real backend for production security.</p>
     </div>
   </div>
 </div>
 
-<!-- ============ KIOSK ============ -->
+<!-- ============ KIOSK (CUSTOMER) ============ -->
 <div id="view-kiosk" class="view-kiosk" hidden>
   <header class="kiosk-head">
     <a class="brand" href="#/">
       <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="3.5" height="3.5"/></svg></span>
     </a>
     <div class="shop" id="kioskShopName">QR Print Kiosk</div>
-    <div class="pill">No account · No login · Just scan</div>
+    <div class="pill">Multi-file · Instant Print</div>
   </header>
   <div class="kiosk-wrap" id="kioskBody"></div>
 </div>
 
-<!-- ============ DESK ============ -->
+<!-- ============ DESK (SHOP OWNER) ============ -->
 <div id="view-desk" class="view-desk" hidden>
   <header class="desk-head">
     <a class="brand" href="#/">
@@ -678,15 +637,15 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
   <div class="desk-wrap">
     <section class="conn-panel" id="connPanel"></section>
     <div class="note-bar">
-      ✦ Auto-print is <b>on</b> — jobs open the print dialog themselves. On Android tap the system "Print" button once (the OS requires it); on desktop Chrome launch with <b>--kiosk-printing</b> for zero-touch printing. Files are deleted right after printing.
+      ✦ <b>100% Zero-Click Auto-Print:</b> Jobs fire immediately upon arrival without headers or footers. To skip the browser print preview dialog completely so you never click "Print", launch Chrome with: <code>google-chrome --kiosk-printing</code>
     </div>
     <div class="stats" id="deskStats"></div>
     <div class="desk-cols">
       <section class="panel">
         <div class="panel-head">
-          <h2>Incoming jobs</h2>
+          <h2>Incoming &amp; active jobs</h2>
           <div class="count" id="pendingCount">0</div>
-          <div class="live"><i></i> Live</div>
+          <div class="live"><i></i> Multi-User Live</div>
         </div>
         <div class="panel-body" id="queueList"></div>
       </section>
@@ -723,7 +682,12 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
                   <input id="setClrRate" type="number" min="0" step="0.5">
                 </div>
               </div>
-              <label class="check-row"><input type="checkbox" id="setAutoPrint" checked><span>Auto-print jobs on arrival</span></label>
+              <div class="set-row">
+                <label>Optional Local Silent-Print Webhook URL (e.g. http://localhost:4000/print)</label>
+                <input id="setWebhook" type="text" placeholder="Leave empty to use browser --kiosk-printing">
+              </div>
+              <label class="check-row"><input type="checkbox" id="setAutoPrint" checked><span>Instant auto-print on arrival (no confirmation popup)</span></label>
+              <label class="check-row"><input type="checkbox" id="setKeepFiles"><span>Keep files in memory after print (disable auto-delete)</span></label>
               <div class="set-2">
                 <button class="act ok" id="btnSaveCfg">Save settings</button>
                 <button class="act pr" id="btnTestClr">Test print page</button>
@@ -734,22 +698,6 @@ h1.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:2px var
         </section>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ============ PRINT OVERLAY ============ -->
-<div class="print-overlay" id="printOverlay" hidden>
-  <div class="po-card">
-    <div class="po-tag">Print job ready</div>
-    <h2 id="poTitle">Job</h2>
-    <p class="meta" id="poMeta"></p>
-    <div class="po-count" id="poCount">3</div>
-    <div class="po-auto" id="poAuto">Opening print dialog…</div>
-    <div class="po-actions">
-      <button class="btn" id="poPrint">Print now</button>
-      <button class="btn dark" id="poSkip" style="background:transparent;border-color:var(--line);color:var(--ink2)">Skip this job</button>
-    </div>
-    <p class="po-hint">On Android tap "Print" in the system sheet · On iOS tap Print now · Desktop opens the dialog automatically</p>
   </div>
 </div>
 
@@ -898,7 +846,7 @@ function qrSvg(qr,quiet,dark,light){
     '<rect width="'+dim+'" height="'+dim+'" fill="'+light+'"/><path d="'+path+'" fill="'+dark+'"/></svg>';}
 
 /* =========================================================
-   AUTH
+   AUTH & CONFIG
    ========================================================= */
 var AUTH_KEY='qrp_accounts_v1',SESSION_KEY='qrp_session_v1';
 function loadJSON(k,d){try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}}
@@ -919,25 +867,32 @@ function getSession(){
 function setSession(email,shop){saveJSON(SESSION_KEY,{email:email,shop:shop,at:Date.now()});}
 function isAuthed(){return !!getSession();}
 
-/* =========================================================
-   CONFIG & LOG
-   ========================================================= */
-var ORDERS_KEY='qrp_log_v5',FILES_KEY='qrp_files_v5',CFG_KEY='qrp_cfg_v5';
+var ORDERS_KEY='qrp_log_v5',CFG_KEY='qrp_cfg_v5';
 var logdb=loadJSON(ORDERS_KEY,[]);
-var localFiles=loadJSON(FILES_KEY,{});
 var cfg=Object.assign({
   shop:'QR Print Kiosk',bwRate:2,colorRate:10,
   bwPrinter:'HP LaserJet M1005 (B&W)',colorPrinter:'Canon G3010 (Colour)',
-  autoPrint:true,nextNo:1001,peerId:''
+  webhook:'',autoPrint:true,keepFiles:false,nextNo:1001,peerId:''
 },loadJSON(CFG_KEY,{}));
 function saveCfg(){saveJSON(CFG_KEY,cfg);}
 function saveLog(){saveJSON(ORDERS_KEY,logdb);}
 
-/* =========================================================
-   PRINT ENGINE — main window, PDF.js, auto-fire, overlay
-   ========================================================= */
+var $=function(id){return document.getElementById(id);};
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function toast(msg){
+  var t=$('toast');t.textContent=msg;t.classList.add('on');
+  clearTimeout(t._x);t._x=setTimeout(function(){t.classList.remove('on');},2600);
+}
+function timeAgo(ts){
+  var s=Math.floor((Date.now()-ts)/1000);
+  if(s<60)return s+'s ago';
+  if(s<3600)return Math.floor(s/60)+'m ago';
+  return Math.floor(s/3600)+'h ago';
+}
 
+/* =========================================================
+   CLEAN, ZERO-HEADER, HIDDEN IFRAME PRINT ENGINE
+   ========================================================= */
 function loadPdfJs(){
   return new Promise(function(res,rej){
     if(window.pdfjsLib&&window.pdfjsLib.getDocument)return res(window.pdfjsLib);
@@ -955,183 +910,215 @@ function loadPdfJs(){
     document.head.appendChild(s);
   });
 }
-function pdfToImages(dataUrl){
+
+function parsePageRange(rangeStr, maxPages){
+  if(!rangeStr || !rangeStr.trim()) return null;
+  var allowed={};
+  var parts=rangeStr.split(',');
+  parts.forEach(function(p){
+    p=p.trim();
+    if(!p)return;
+    var m=p.match(/^(\d+)\s*-\s*(\d+)$/);
+    if(m){
+      var a=parseInt(m[1],10), b=parseInt(m[2],10);
+      for(var k=Math.min(a,b);k<=Math.max(a,b);k++){
+        if(k>=1 && k<=maxPages) allowed[k]=true;
+      }
+    } else {
+      var n=parseInt(p,10);
+      if(n>=1 && n<=maxPages) allowed[n]=true;
+    }
+  });
+  var list=Object.keys(allowed).map(Number).sort(function(a,b){return a-b;});
+  return list.length ? list : null;
+}
+
+function pdfToImages(dataUrl, rangeStr){
   return loadPdfJs().then(function(lib){
     var bin=atob(dataUrl.split(',')[1]||'');
     var arr=new Uint8Array(bin.length);
     for(var i=0;i<bin.length;i++)arr[i]=bin.charCodeAt(i);
     return lib.getDocument({data:arr}).promise.then(function(pdf){
+      var pageNums=parsePageRange(rangeStr, pdf.numPages);
+      if(!pageNums){
+        pageNums=[];
+        for(var p=1;p<=pdf.numPages;p++) pageNums.push(p);
+      }
       var out=[],seq=Promise.resolve();
-      for(var pn=1;pn<=pdf.numPages;pn++){
-        (function(n){
-          seq=seq.then(function(){
-            return pdf.getPage(n).then(function(page){
-              var vp=page.getViewport({scale:2});
-              var c=document.createElement('canvas');
-              c.width=vp.width;c.height=vp.height;
-              return page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise.then(function(){
-                out.push(c.toDataURL('image/jpeg',0.92));
-              });
+      pageNums.forEach(function(n){
+        seq=seq.then(function(){
+          return pdf.getPage(n).then(function(page){
+            var vp=page.getViewport({scale:2.2});
+            var c=document.createElement('canvas');
+            c.width=vp.width;c.height=vp.height;
+            return page.render({canvasContext:c.getContext('2d'),viewport:vp}).promise.then(function(){
+              out.push(c.toDataURL('image/jpeg',0.95));
             });
           });
-        })(pn);
-      }
-      return seq.then(function(){return {images:out,count:pdf.numPages};});
+        });
+      });
+      return seq.then(function(){return {images:out,count:pageNums.length,totalPdfPages:pdf.numPages};});
     });
   });
 }
 
-function jobHeadHTML(meta){
-  return '<div class="head-tag">#'+meta.no+' · '+(meta.color==='bw'?'BLACK &amp; WHITE':'COLOUR')+' · '+meta.pages+
-    ' PAGE(S) × '+meta.copies+' COPY(IES)'+(meta.range?' · RANGE '+esc(meta.range):'')+'</div>';
+/* Prepares rendered page images & stores them on job.renderedPages so shop owner can view & print */
+function prepareJobPages(job){
+  if(job.renderedPages && job.renderedPages.length) return Promise.resolve(job.renderedPages);
+  var meta=job.meta, dataUrl=job.dataUrl;
+  if(!dataUrl) return Promise.resolve([]);
+  if(/^data:application\/pdf/i.test(dataUrl)){
+    return pdfToImages(dataUrl, meta.range).then(function(r){
+      job.renderedPages=r.images;
+      meta.pages=r.count||meta.pages;
+      return r.images;
+    });
+  }
+  if(/^data:image\//i.test(dataUrl)){
+    job.renderedPages=[dataUrl];
+    return Promise.resolve([dataUrl]);
+  }
+  /* Text / CSV fallback rendered onto a clean canvas page */
+  try{
+    var txt=atob(dataUrl.split(',')[1]||'');
+    var c=document.createElement('canvas');
+    c.width=1240; c.height=1754;
+    var ctx=c.getContext('2d');
+    ctx.fillStyle='#ffffff';
+    ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#000000';
+    ctx.font='22px monospace';
+    var lines=txt.split(/\r?\n/);
+    var y=80;
+    for(var i=0;i<Math.min(lines.length,72);i++){
+      ctx.fillText(lines[i].slice(0,95), 70, y);
+      y+=24;
+    }
+    var img=c.toDataURL('image/png');
+    job.renderedPages=[img];
+    return Promise.resolve([img]);
+  }catch(e){
+    return Promise.resolve([]);
+  }
 }
-function imagesJobHTML(meta,imgs){
-  var html=jobHeadHTML(meta),i,c;
-  var maxCopies=Math.max(1,Math.floor(150/Math.max(1,imgs.length)));
-  var copies=Math.min(meta.copies,maxCopies);
-  for(c=0;c<copies;c++){
-    for(i=0;i<imgs.length;i++){
-      html+='<div class="pg"><img src="'+imgs[i]+'"'+(meta.color==='bw'?' style="filter:grayscale(1) contrast(1.15)"':'')+'></div>';
+
+/* PURE DOCUMENT HTML — NO HEADER, NO FOOTER, ZERO MARGINS */
+function buildCleanPrintHTML(meta, pageImages){
+  var copies=Math.max(1, Math.min(50, parseInt(meta.copies,10)||1));
+  var bwFilter=(meta.color==='bw')?'filter:grayscale(100%) contrast(115%);':'';
+  var pagesHtml='';
+  for(var c=0;c<copies;c++){
+    for(var i=0;i<pageImages.length;i++){
+      pagesHtml+='<div class="page"><img src="'+pageImages[i]+'" style="'+bwFilter+'"></div>';
     }
   }
-  return html;
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>&nbsp;</title><style>'+
+    '@page { size: A4; margin: 0mm !important; }'+
+    'html, body { margin: 0 !important; padding: 0 !important; background: #fff !important; width: 100%; height: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }'+
+    '.page { width: 210mm; height: 297mm; display: flex; align-items: center; justify-content: center; page-break-after: always; break-after: page; overflow: hidden; margin: 0; padding: 0; }'+
+    '.page:last-child { page-break-after: auto; break-after: auto; }'+
+    'img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; }'+
+    '</style></head><body>'+pagesHtml+'</body></html>';
 }
-function buildJobHTML(meta,dataUrl){
+
+/* Prints inside the hidden iframe — never redirects or hides the shop dashboard */
+function printViaHiddenIframe(fullHtmlDoc){
   return new Promise(function(resolve){
-    if(!dataUrl){resolve(jobHeadHTML(meta)+'<p>File unavailable — already deleted.</p>');return;}
-    if(/^data:application\/pdf/i.test(dataUrl)){
-      pdfToImages(dataUrl).then(function(r){
-        meta.pages=r.count||meta.pages;
-        resolve(imagesJobHTML(meta,r.images));
-      }).catch(function(){
-        resolve(jobHeadHTML(meta)+'<p style="font:12px monospace">PDF preview engine failed. Use "Reprint last" after checking your internet connection.</p>');
-      });
+    var frame=$('silentPrintFrame');
+    var doc=frame.contentWindow.document;
+    doc.open();
+    doc.write(fullHtmlDoc);
+    doc.close();
+
+    var imgs=Array.prototype.slice.call(doc.querySelectorAll('img'));
+    var left=imgs.length, triggered=false;
+
+    function firePrint(){
+      if(triggered)return;
+      triggered=true;
+      setTimeout(function(){
+        try{
+          frame.contentWindow.focus();
+          frame.contentWindow.print();
+        }catch(e){}
+        setTimeout(resolve, 1200);
+      }, 150);
+    }
+
+    if(!left){
+      firePrint();
       return;
     }
-    if(/^data:image\//i.test(dataUrl)){resolve(imagesJobHTML(meta,[dataUrl]));return;}
-    try{
-      var txt=atob(dataUrl.split(',')[1]||'');
-      resolve(jobHeadHTML(meta)+'<pre>'+esc(txt)+'</pre>');
-    }catch(e){
-      resolve(jobHeadHTML(meta)+'<p style="font:12px monospace">Unsupported file preview — try PDF, image or TXT.</p>');
-    }
-  });
-}
-
-function whenImagesReady(root){
-  return new Promise(function(res){
-    var imgs=Array.prototype.slice.call(root.querySelectorAll('img'));
-    if(!imgs.length){setTimeout(res,120);return;}
-    var left=imgs.length,done=false;
-    function tick(){if(done)return;left--;if(left<=0){done=true;res();}}
     imgs.forEach(function(im){
-      if(im.complete)tick();
-      else{im.addEventListener('load',tick);im.addEventListener('error',tick);}
-    });
-    setTimeout(function(){if(!done){done=true;res();}},12000);
-  });
-}
-
-function printContent(html){
-  var root=document.getElementById('printRoot');
-  root.innerHTML=html;
-  return whenImagesReady(root).then(function(){
-    return new Promise(function(resolve){
-      var finished=false;
-      function done(){
-        if(finished)return;
-        finished=true;
-        window.removeEventListener('afterprint',done);
-        setTimeout(function(){root.innerHTML='';resolve();},300);
+      if(im.complete && im.naturalWidth>0){
+        left--;
+        if(left<=0) firePrint();
+      } else {
+        im.onload=im.onerror=function(){
+          left--;
+          if(left<=0) firePrint();
+        };
       }
-      window.addEventListener('afterprint',done);
-      try{window.focus();window.print();}catch(e){done();}
-      setTimeout(done,60000);
     });
-  });
-}
-
-var poTimer=null;
-function openPrintFlow(job,html){
-  return new Promise(function(resolve){
-    var ov=document.getElementById('printOverlay');
-    document.getElementById('poTitle').textContent='#'+(job.meta.no||'…')+' · '+job.meta.fileName;
-    document.getElementById('poMeta').textContent=job.meta.pages+' pages × '+job.meta.copies+' cop'+
-      (job.meta.copies>1?'ies':'y')+' · '+(job.meta.color==='bw'?'B&W':'Colour')+
-      (job.meta.range?' · pages '+job.meta.range:'');
-    var n=3;
-    document.getElementById('poCount').textContent=n;
-    document.getElementById('poAuto').textContent='Opening print dialog…';
-    ov.hidden=false;
-    var started=false;
-    function start(){
-      if(started)return;started=true;
-      clearInterval(poTimer);
-      ov.hidden=true;
-      printContent(html).then(function(){resolve('printed');});
-    }
-    function skip(){
-      if(started)return;started=true;
-      clearInterval(poTimer);
-      ov.hidden=true;
-      resolve('skip');
-    }
-    clearInterval(poTimer);
-    poTimer=setInterval(function(){
-      n--;
-      if(n<=0){start();}
-      else document.getElementById('poCount').textContent=n;
-    },1000);
-    document.getElementById('poPrint').onclick=start;
-    document.getElementById('poSkip').onclick=skip;
+    setTimeout(firePrint, 6000);
   });
 }
 
 function testPrintHTML(name){
-  return '<div style="padding:14mm 6mm">'+
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>&nbsp;</title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:18mm;font-family:Helvetica,Arial,sans-serif;}</style></head><body>'+
     '<div style="font:700 11px Helvetica;letter-spacing:3px;color:#666">TEST PAGE · '+(new Date()).toLocaleString()+'</div>'+
     '<h1 style="font:700 30px Helvetica;margin:14px 0 6px">'+esc(cfg.shop)+'</h1>'+
     '<div style="font:13px Helvetica;color:#444;margin-bottom:20px">Printer: <b>'+esc(name)+'</b></div>'+
     '<div style="height:1px;background:#999;margin:16px 0"></div>'+
     '<div style="font:12px/1.9 Helvetica">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 !@#$%^&amp;*()</div>'+
-    '<div style="margin:18px 0;display:flex;gap:6px">'+
-      '<div style="flex:1;height:22px;background:#000"></div><div style="flex:1;height:22px;background:#444"></div>'+
-      '<div style="flex:1;height:22px;background:#888"></div><div style="flex:1;height:22px;background:#ccc"></div></div>'+
-    '<div style="font:12px Helvetica;color:#444">If this page printed correctly, the printer is connected and ready.</div></div>';
+    '<div style="font:12px Helvetica;color:#444;margin-top:18px">Zero-header background iframe print engine active.</div></body></html>';
 }
+
 function uploadUrl(){
   var id=net.shopId||cfg.peerId||'';
   return location.origin+location.pathname+'#/kiosk'+(id?'?p='+encodeURIComponent(id):'');
 }
 function posterHTML(){
   var url=uploadUrl(),qr=makeQr(url,'H');
-  return '<div style="padding:10mm 12mm;text-align:center">'+
-    '<div style="font:700 11px Helvetica;letter-spacing:4px;color:#f26522">SCAN · UPLOAD · PRINT</div>'+
+  return '<!DOCTYPE html><html><head><meta charset="utf-8"><title>&nbsp;</title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:14mm;font-family:Helvetica,Arial,sans-serif;text-align:center;}</style></head><body>'+
+    '<div style="font:700 11px Helvetica;letter-spacing:4px;color:#f26522">SCAN · UPLOAD · AUTO-PRINT</div>'+
     '<h1 style="font:700 42px/1.05 Helvetica;margin:12px 0 4px;text-transform:uppercase">'+esc(cfg.shop)+'</h1>'+
-    '<div style="font:15px Helvetica;color:#444;margin-bottom:8mm">Scan this QR code with your phone camera<br>to upload and print your documents instantly.<br><b>No account needed.</b></div>'+
+    '<div style="font:15px Helvetica;color:#444;margin-bottom:8mm">Scan this QR code with your phone camera<br>to upload multiple documents and print instantly.<br><b>No account needed.</b></div>'+
     '<div style="width:82mm;margin:0 auto">'+qrSvg(qr,4,'#111111','#ffffff')+'</div>'+
-    '<div style="margin-top:8mm;display:flex;gap:5mm;justify-content:center;font:12px Helvetica;color:#333">'+
-      '<div style="border:1.5px solid #111;padding:4mm 5mm"><b>1.</b> Scan QR</div>'+
-      '<div style="border:1.5px solid #111;padding:4mm 5mm"><b>2.</b> Upload file</div>'+
-      '<div style="border:1.5px solid #111;padding:4mm 5mm"><b>3.</b> Collect print</div></div>'+
-    '<div style="margin-top:8mm;font:11px monospace;letter-spacing:1px;color:#777">'+esc(url)+'</div></div>';
+    '<div style="margin-top:8mm;font:11px monospace;letter-spacing:1px;color:#777">'+esc(url)+'</div></body></html>';
 }
 
 /* =========================================================
-   APP SHELL
+   PREVIEW MODAL FOR SHOP OWNER
    ========================================================= */
-var $=function(id){return document.getElementById(id);};
-function toast(msg){
-  var t=$('toast');t.textContent=msg;t.classList.add('on');
-  clearTimeout(t._x);t._x=setTimeout(function(){t.classList.remove('on');},2400);}
-function timeAgo(ts){
-  var s=Math.floor((Date.now()-ts)/1000);
-  if(s<60)return s+'s ago';
-  if(s<3600)return Math.floor(s/60)+'m ago';
-  return Math.floor(s/3600)+'h ago';}
+function openJobPreview(job){
+  var modal=$('previewModal'), body=$('pmBody'), title=$('pmTitle');
+  title.textContent='#'+(job.meta.no||'…')+' · '+job.meta.fileName;
+  body.innerHTML='<div style="color:#d6c9b1;font-family:var(--mono);padding:30px;">Rendering preview…</div>';
+  modal.hidden=false;
+
+  prepareJobPages(job).then(function(imgs){
+    if(!imgs.length){
+      body.innerHTML='<div style="color:#e0857c;font-family:var(--mono);padding:30px;">Preview unavailable.</div>';
+      return;
+    }
+    body.innerHTML=imgs.map(function(src,idx){
+      return '<div style="text-align:center"><div style="font-family:var(--mono);font-size:10px;color:#b7a98f;margin-bottom:6px">PAGE '+(idx+1)+' OF '+imgs.length+'</div>'+
+        '<img src="'+src+'" style="'+(job.meta.color==='bw'?'filter:grayscale(1) contrast(1.15);':'')+'max-height:75vh;"></div>';
+    }).join('');
+  });
+
+  $('pmPrintNow').onclick=function(){
+    modal.hidden=true;
+    enqueue(job, true);
+  };
+  $('pmClose').onclick=function(){
+    modal.hidden=true;
+  };
+}
 
 /* =========================================================
-   NETWORK — Fast WebRTC + BroadcastChannel + Storage Sync
+   MULTI-USER & MULTI-FILE NETWORK ENGINE
    ========================================================= */
 var PEER_CONFIG = {
   debug: 1,
@@ -1140,8 +1127,7 @@ var PEER_CONFIG = {
       { urls: 'stun:stun.l.google.com:19302' },
       { urls: 'stun:stun1.l.google.com:19302' },
       { urls: 'stun:stun2.l.google.com:19302' },
-      { urls: 'stun:stun.cloudflare.com:3478' },
-      { urls: 'stun:global.stun.twilio.com:3478' }
+      { urls: 'stun:stun.cloudflare.com:3478' }
     ]
   }
 };
@@ -1149,22 +1135,22 @@ var PEER_CONFIG = {
 var net={
   role:null,
   peer:null,
-  conns:[],
+  conns:[],         /* Array of ALL simultaneously connected customer phones */
+  custConn:null,    /* Customer's active connection to shop */
   status:'idle',
   shopId:'',
   id:'',
   attempts:0,
-  qrGenerated:true,
   retryTimer:null,
   hbTimer:null,
-  pendingJob:null
+  pendingBatch:null
 };
 var jobs=[],printQ=[],printing=false,lastPrinted=null;
 
-/* Same-device instant BroadcastChannel bridge */
+/* Same-device BroadcastChannel bridge */
 var bc = null;
 try {
-  bc = new BroadcastChannel('qrp_instant_bridge');
+  bc = new BroadcastChannel('qrp_instant_bridge_v2');
   bc.onmessage = function(ev) {
     var d = ev.data;
     if (!d || typeof d !== 'object') return;
@@ -1172,7 +1158,7 @@ try {
       if (d.t === 'hello_req') {
         bc.postMessage({ target: 'customer', t: 'hello', shop: cfg.shop, rates: { bw: cfg.bwRate, color: cfg.colorRate } });
       } else if (d.t === 'local_job') {
-        receiveFullJob(d.meta, d.dataUrl, { isBroadcast: true });
+        receiveFullJob(d.meta, d.dataUrl, { isBroadcast: true, clientId: d.clientId });
       }
     } else if (net.role === 'customer' && d.target === 'customer') {
       if (d.t === 'hello') {
@@ -1182,7 +1168,7 @@ try {
           net.status = 'online';
           net.isLocalBridge = true;
           renderKiosk();
-          flushPendingCustomerJob();
+          flushPendingCustomerBatch();
         }
       } else if (d.t === 'status') {
         handleCustomerData(d);
@@ -1208,7 +1194,6 @@ function ensureShopPeerId(){
 
 function initShopPeer(){
   net.role='shop';
-  net.qrGenerated=true;
   var desiredId=ensureShopPeerId();
   net.shopId=desiredId;
 
@@ -1246,6 +1231,7 @@ function initShopPeer(){
     renderDesk();
   });
 
+  /* MULTI-USER: Every customer scan triggers a new connection here */
   net.peer.on('connection',function(conn){
     attachShopConn(conn);
   });
@@ -1262,7 +1248,6 @@ function initShopPeer(){
 
   net.peer.on('error',function(err){
     if(err && err.type==='unavailable-id'){
-      /* Previous tab or stale session holds ID; retry once after 1.5s, else rotate */
       net.attempts++;
       try{net.peer.destroy();}catch(e){}
       net.peer=null;
@@ -1289,6 +1274,7 @@ function initShopPeer(){
 }
 
 function attachShopConn(conn){
+  /* Keep all open connections so multiple customers stay connected simultaneously */
   net.conns=net.conns.filter(function(c){return c && c.open && c!==conn;});
   net.conns.push(conn);
 
@@ -1303,7 +1289,7 @@ function attachShopConn(conn){
   conn.on('open',function(){
     sendShopHello();
     renderConnPanel();
-    toast('Customer phone connected');
+    toast('Customer connected ('+net.conns.filter(function(c){return c.open;}).length+' online)');
   });
 
   conn.on('data',function(d){
@@ -1325,6 +1311,7 @@ function attachShopConn(conn){
 
   conn.on('error',function(){
     net.conns=net.conns.filter(function(c){return c!==conn;});
+    renderConnPanel();
   });
 
   if(conn.open) sendShopHello();
@@ -1341,13 +1328,18 @@ function receiveFullJob(meta, dataUrl, conn){
     conn: conn || null,
     status: cfg.autoPrint ? 'queued' : 'waiting',
     createdAt: Date.now(),
-    dataUrl: dataUrl
+    dataUrl: dataUrl,
+    renderedPages: null
   };
   jobs.push(job);
   notify(job, 'received');
-  if (cfg.autoPrint) enqueue(job);
+  /* Pre-render thumbnail & pages immediately so shop owner can see it */
+  prepareJobPages(job).then(function(){
+    renderDesk();
+    if (cfg.autoPrint) enqueue(job);
+  });
   renderDesk();
-  toast('Job #' + job.meta.no + ' received');
+  toast('Job #' + job.meta.no + ' (' + meta.fileName + ') received');
 }
 
 function handleShopData(d,conn){
@@ -1355,7 +1347,7 @@ function handleShopData(d,conn){
   if(d.t==='meta'){
     var exists=jobs.some(function(j){return j.meta.id===d.job.id;});
     if(exists)return;
-    var job={meta:d.job,parts:[],got:0,n:d.job.chunks||1,conn:conn,status:'receiving',createdAt:Date.now()};
+    var job={meta:d.job,parts:[],got:0,n:d.job.chunks||1,conn:conn,status:'receiving',createdAt:Date.now(),renderedPages:null};
     jobs.push(job);
     notify(job,'receiving');
     renderDesk();
@@ -1381,9 +1373,12 @@ function handleShopData(d,conn){
         job.parts=[];
         job.status=cfg.autoPrint?'queued':'waiting';
         notify(job,'received');
-        if(cfg.autoPrint)enqueue(job);
         renderDesk();
-        toast('Job #'+job.meta.no+' received');
+        toast('Job #'+job.meta.no+' ('+job.meta.fileName+') received');
+        prepareJobPages(job).then(function(){
+          renderDesk();
+          if(cfg.autoPrint) enqueue(job);
+        });
         break;
       }
     }
@@ -1401,52 +1396,81 @@ function notify(job,status,msg){
   }catch(e){}
 }
 
-function enqueue(job){
-  if(printQ.indexOf(job)<0&&job.status!=='printing')printQ.push(job);
+function enqueue(job, forceNow){
+  if(printQ.indexOf(job)<0 && (job.status!=='printing' || forceNow)){
+    printQ.push(job);
+  }
   processQueue();
 }
+
 function finalizeJob(job){
   job.status='done';
   logdb.unshift({no:job.meta.no,fileName:job.meta.fileName,pages:job.meta.pages,
     copies:job.meta.copies,color:job.meta.color,price:job.meta.price,status:'done',createdAt:Date.now()});
   saveLog();
   notify(job,'done');
-  job.dataUrl=null;                     /* AUTO-DELETE */
-  lastPrinted={meta:job.meta};
-  jobs=jobs.filter(function(x){return x!==job;});
+  lastPrinted={meta:job.meta, renderedPages:job.renderedPages ? job.renderedPages.slice() : null};
+  if(!cfg.keepFiles){
+    job.dataUrl=null;
+    job.renderedPages=null;
+    jobs=jobs.filter(function(x){return x!==job;});
+  }
   renderDesk();
-  toast('Job #'+job.meta.no+' printed · file deleted');
+  toast('Job #'+job.meta.no+' printed automatically');
 }
+
+/* ZERO-CLICK AUTO-PRINT QUEUE PROCESSOR */
 function processQueue(){
   if(printing||!printQ.length)return;
   var job=printQ.shift();
-  if(!job||!job.dataUrl){return processQueue();}
+  if(!job||(!job.dataUrl && !job.renderedPages)){return processQueue();}
   printing=true;
   job.status='printing';
   renderDesk();
   notify(job,'printing');
-  buildJobHTML(job.meta,job.dataUrl).then(function(html){
-    return openPrintFlow(job,html);
-  }).then(function(result){
-    if(result==='printed'){
-      finalizeJob(job);
-    } else {
-      notify(job,'error','Job skipped at shop');
-      jobs=jobs.filter(function(x){return x!==job;});
-      renderDesk();
-      toast('Job skipped · file dropped');
+
+  prepareJobPages(job).then(function(imgs){
+    if(!imgs || !imgs.length){
+      throw new Error('Could not render document');
     }
+    /* Optional local silent webhook if configured by shop owner */
+    if(cfg.webhook && /^https?:\/\//i.test(cfg.webhook)){
+      return fetch(cfg.webhook, {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          no:job.meta.no,
+          fileName:job.meta.fileName,
+          printer:job.meta.color==='bw'?cfg.bwPrinter:cfg.colorPrinter,
+          color:job.meta.color,
+          copies:job.meta.copies,
+          pages:imgs
+        })
+      }).then(function(){ return 'printed'; }).catch(function(){
+        /* Fallback to hidden iframe print */
+        var cleanHtml=buildCleanPrintHTML(job.meta, imgs);
+        return printViaHiddenIframe(cleanHtml);
+      });
+    }
+    /* Standard zero-header hidden iframe auto-print */
+    var cleanHtml=buildCleanPrintHTML(job.meta, imgs);
+    return printViaHiddenIframe(cleanHtml);
+  }).then(function(){
+    finalizeJob(job);
     printing=false;
-    setTimeout(processQueue,600);
-  }).catch(function(){
+    setTimeout(processQueue, 400);
+  }).catch(function(err){
     printing=false;
-    notify(job,'error','Print engine error');
+    job.status='error';
+    notify(job,'error',err && err.message ? err.message : 'Print error');
     renderDesk();
-    setTimeout(processQueue,600);
+    setTimeout(processQueue, 400);
   });
 }
 
-/* ---- customer side ---- */
+/* =========================================================
+   CUSTOMER NETWORK CONNECTION
+   ========================================================= */
 function startCustomerNet(shopId){
   net.role='customer';
   clearTimeout(net.retryTimer);
@@ -1459,7 +1483,6 @@ function startCustomerNet(shopId){
     try{net.shopId=localStorage.getItem('qrp_last_shop')||cfg.peerId||'';}catch(e){}
   }
 
-  /* Also ping same-device BroadcastChannel immediately */
   if(bc){
     try{bc.postMessage({target:'shop',t:'hello_req'});}catch(e){}
   }
@@ -1470,8 +1493,7 @@ function startCustomerNet(shopId){
     return;
   }
 
-  /* If already connected to this exact shopId, keep connection */
-  if(net.peer && !net.peer.destroyed && net.conns.length && net.conns[0].open && net.conns[0].peer===net.shopId){
+  if(net.peer && !net.peer.destroyed && net.custConn && net.custConn.open && net.custConn.peer===net.shopId){
     net.status='online';
     renderKiosk();
     return;
@@ -1500,23 +1522,16 @@ function startCustomerNet(shopId){
       }
     });
 
-    net.peer.on('error',function(err){
-      if(err && err.type==='peer-unavailable'){
-        /* Shop peer might still be initializing or offline; retry quickly */
-        net.status='connecting';
-        renderKiosk();
-        scheduleCustomerRetry(1500);
-        return;
-      }
+    net.peer.on('error',function(){
       net.status='connecting';
       renderKiosk();
-      scheduleCustomerRetry(1800);
+      scheduleCustomerRetry(1400);
     });
   } else if(net.peer.open){
     tryConnectToShop();
   } else if(net.peer.disconnected){
     try{net.peer.reconnect();}catch(e){}
-    scheduleCustomerRetry(1500);
+    scheduleCustomerRetry(1400);
   }
 }
 
@@ -1524,7 +1539,7 @@ function scheduleCustomerRetry(ms){
   clearTimeout(net.retryTimer);
   net.retryTimer=setTimeout(function(){
     if(net.role!=='customer')return;
-    if(net.status==='online' && net.conns.length && net.conns[0].open)return;
+    if(net.status==='online' && net.custConn && net.custConn.open)return;
     if(bc){try{bc.postMessage({target:'shop',t:'hello_req'});}catch(e){}}
     if(!net.peer || net.peer.destroyed){
       startCustomerNet(net.shopId);
@@ -1534,26 +1549,25 @@ function scheduleCustomerRetry(ms){
     } else {
       tryConnectToShop();
     }
-  }, ms||1500);
+  }, ms||1400);
 }
 
 function tryConnectToShop(){
   if(!net.peer || !net.peer.open || !net.shopId)return;
-  if(net.conns.length && net.conns[0].open && net.conns[0].peer===net.shopId){
+  if(net.custConn && net.custConn.open && net.custConn.peer===net.shopId){
     net.status='online';
     renderKiosk();
     return;
   }
 
-  /* Clean up stale un-opened connections */
-  net.conns.forEach(function(c){try{c.close();}catch(e){}});
-  net.conns=[];
+  if(net.custConn){try{net.custConn.close();}catch(e){}}
+  net.custConn=null;
 
   var conn;
   try{
     conn=net.peer.connect(net.shopId,{reliable:true,serialization:'json'});
   }catch(e){
-    scheduleCustomerRetry(1500);
+    scheduleCustomerRetry(1400);
     return;
   }
 
@@ -1562,18 +1576,17 @@ function tryConnectToShop(){
       try{conn.close();}catch(e){}
       scheduleCustomerRetry(1200);
     }
-  }, 5500);
+  }, 5000);
 
   conn.on('open',function(){
     clearTimeout(openTimeout);
-    net.conns=[conn];
+    net.custConn=conn;
     net.status='online';
     net.isLocalBridge=false;
     net.attempts=0;
     try{localStorage.setItem('qrp_last_shop',net.shopId);}catch(e){}
     try{conn.send({t:'hello_req'});}catch(e){}
 
-    /* Start heartbeat to keep mobile connection alive */
     clearInterval(net.hbTimer);
     net.hbTimer=setInterval(function(){
       if(conn.open){
@@ -1584,7 +1597,7 @@ function tryConnectToShop(){
     }, 5000);
 
     renderKiosk();
-    flushPendingCustomerJob();
+    flushPendingCustomerBatch();
   });
 
   conn.on('data',function(d){
@@ -1594,7 +1607,6 @@ function tryConnectToShop(){
   conn.on('close',function(){
     clearTimeout(openTimeout);
     clearInterval(net.hbTimer);
-    if(net.status==='online') toast('Reconnecting to shop…');
     net.status='connecting';
     renderKiosk();
     scheduleCustomerRetry(1200);
@@ -1602,7 +1614,7 @@ function tryConnectToShop(){
 
   conn.on('error',function(){
     clearTimeout(openTimeout);
-    scheduleCustomerRetry(1500);
+    scheduleCustomerRetry(1400);
   });
 }
 
@@ -1619,10 +1631,14 @@ function handleCustomerData(d){
     return;
   }
   if(d.t==='status'){
-    if(d.status==='receiving'){ks.live.received=false;}
-    if(d.status==='received'){ks.live.received=true;if(d.no)ks.ticketNo=d.no;}
-    if(d.status==='printing'){ks.live.received=true;ks.live.printing=true;if(d.no)ks.ticketNo=d.no;}
-    if(d.status==='done'){ks.live.received=true;ks.live.printing=true;ks.live.done=true;if(d.no)ks.ticketNo=d.no;}
+    if(d.no && ks.tickets.indexOf(d.no)<0) ks.tickets.push(d.no);
+    if(d.status==='received'){ks.live.received=true;}
+    if(d.status==='printing'){ks.live.received=true;ks.live.printing=true;}
+    if(d.status==='done'){
+      ks.live.received=true;ks.live.printing=true;
+      ks.doneCount=(ks.doneCount||0)+1;
+      if(ks.doneCount>=Math.max(1, ks.sentCount||1)) ks.live.done=true;
+    }
     if(d.status==='error'){ks.live.error=d.msg||'Print error';}
     if(ks.view==='ticket')renderKiosk();
   }
@@ -1718,7 +1734,6 @@ function route(){
   if(isDesk){
     var s=getSession();
     $('deskOwner').textContent='Signed in · '+(s?s.email:'');
-    /* AUTO-START SHOP CONNECTION IMMEDIATELY WHEN DESK OPENS */
     initShopPeer();
     renderDesk();
   }
@@ -1737,25 +1752,38 @@ window.addEventListener('hashchange',function(){
 });
 
 /* =========================================================
-   KIOSK (CUSTOMER)
+   KIOSK (CUSTOMER — MULTI-FILE SUPPORT)
    ========================================================= */
 var ks={
-  view:'form',fileData:null,fileName:'',fileType:'',fileSize:0,mime:'',
-  pages:1,copies:1,color:'bw',range:'',
-  ticketNo:null,sending:0,live:{received:false,printing:false,done:false,error:null}
+  view:'form',
+  files:[], /* Array of {fileData, fileName, fileType, fileSize, mime, pages} */
+  copies:1,
+  color:'bw',
+  range:'',
+  tickets:[],
+  sentCount:0,
+  doneCount:0,
+  sending:0,
+  sendingLabel:'',
+  live:{received:false,printing:false,done:false,error:null}
 };
 var ACCEPT=/\.(pdf|png|jpe?g|gif|webp|bmp|docx?|txt|csv)$/i;
 function kioskRate(){return ks.color==='bw'?cfg.bwRate:cfg.colorRate;}
-function kioskTotal(){return Math.round(ks.pages*ks.copies*kioskRate()*100)/100;}
+function totalSelectedPages(){
+  return ks.files.reduce(function(sum,f){return sum+(parseInt(f.pages,10)||1);}, 0);
+}
+function kioskTotal(){
+  return Math.round(totalSelectedPages()*ks.copies*kioskRate()*100)/100;
+}
 
 function connChipHTML(){
   if(net.status==='online'){
     return '<div class="conn-chip"><div class="dot on"></div><div>Connected to '+esc(cfg.shop)+
-      '<small>Instant direct link active · ready to print immediately</small></div></div>';
+      '<small>Instant direct link active · select multiple files &amp; print immediately</small></div></div>';
   }
   if(net.status==='connecting' && net.shopId){
     return '<div class="conn-chip"><div class="dot wait"></div><div>Connecting to '+esc(cfg.shop)+'…'+
-      '<small>Establishing instant link to station ('+esc(net.shopId)+') · you can select your file now</small></div>'+
+      '<small>Establishing link to station ('+esc(net.shopId)+') · select your files now</small></div>'+
       '<button class="retry-btn" id="btnForceReconnect">Retry now</button></div>';
   }
   return '<div class="conn-chip"><div class="dot off"></div><div>Offline / Demo Mode'+
@@ -1769,7 +1797,7 @@ function bindConnChipEvents(){
     btn.onclick=function(){
       toast('Reconnecting to station…');
       try{if(net.peer)net.peer.destroy();}catch(e){}
-      net.peer=null;net.conns=[];
+      net.peer=null;net.custConn=null;
       startCustomerNet(net.shopId);
     };
   }
@@ -1783,7 +1811,7 @@ function renderKiosk(){
   if(ks.view==='waiting_conn'){
     box.innerHTML=connChipHTML()+
       '<div class="prog-wrap"><h2>Connecting to print station…</h2>'+
-      '<p>Your file <b>'+esc(ks.fileName)+'</b> is queued and will send the instant the station responds.</p>'+
+      '<p>Your '+ks.files.length+' file(s) are queued and will send the instant the station responds.</p>'+
       '<div class="prog-pct">•••</div>'+
       '<div class="bar"><i style="width:35%"></i></div></div>';
     bindConnChipEvents();
@@ -1792,8 +1820,8 @@ function renderKiosk(){
 
   if(ks.view==='sending'){
     box.innerHTML=connChipHTML()+
-      '<div class="prog-wrap"><h2>Sending to print station</h2>'+
-      '<p>'+esc(ks.fileName)+' · '+Math.round(ks.fileSize/1024)+' KB</p>'+
+      '<div class="prog-wrap"><h2>Sending '+esc(ks.sendingLabel||'files')+'</h2>'+
+      '<p>'+ks.files.length+' file(s) · '+totalSelectedPages()+' total page(s)</p>'+
       '<div class="prog-pct">'+ks.sending+'%</div>'+
       '<div class="bar"><i style="width:'+ks.sending+'%"></i></div></div>';
     bindConnChipEvents();
@@ -1802,11 +1830,12 @@ function renderKiosk(){
 
   if(ks.view==='ticket'){
     var L=ks.live;
+    var ticketStr = ks.tickets.length ? ks.tickets.map(function(n){return '#'+n;}).join(', ') : '····';
     var steps=[
-      ['File sent from your phone','Delivered to the print station'],
-      ['Received at print station',L.received?('Ticket #'+(ks.ticketNo||'…')):'Waiting for the station to accept'],
-      ['Printing now',L.printing?(ks.color==='bw'?'B&W · '+cfg.bwPrinter:'Colour · '+cfg.colorPrinter):'Prints automatically'],
-      ['Ready — collect your print','File deleted automatically']
+      ['Files sent from your phone', ks.sentCount+' file(s) delivered to station'],
+      ['Received at print station', L.received?('Ticket '+ticketStr):'Waiting for station confirmation'],
+      ['Auto-printing now', L.printing?(ks.color==='bw'?'B&W · '+cfg.bwPrinter:'Colour · '+cfg.colorPrinter):'Prints automatically without headers/footers'],
+      ['Ready — collect your print','Files deleted automatically after print']
     ];
     var activeIdx=L.done?4:(L.printing?2:(L.received?1:0));
     var lis='';
@@ -1821,109 +1850,155 @@ function renderKiosk(){
     else if(L.printing)stamp='<div class="stamp-big hot">Printing</div>';
     box.innerHTML=connChipHTML()+
       '<div class="ticket-screen"><div class="big-ticket">'+stamp+
-        '<div class="bt-top"><div class="no">'+(ks.ticketNo?'#'+ks.ticketNo:'····')+'</div><div class="sub">Your ticket number</div></div>'+
+        '<div class="bt-top"><div class="no">'+ticketStr+'</div><div class="sub">Your ticket number(s)</div></div>'+
         '<div class="bt-body">'+
           '<dl class="t-rows" style="margin-bottom:20px">'+
-            '<dt>File</dt><dd>'+esc(ks.fileName)+'</dd>'+
-            '<dt>Pages</dt><dd>'+ks.pages+' × '+ks.copies+' cop'+(ks.copies>1?'ies':'y')+'</dd>'+
+            '<dt>Files</dt><dd>'+esc(ks.files.map(function(f){return f.fileName;}).join(', '))+'</dd>'+
+            '<dt>Pages</dt><dd>'+totalSelectedPages()+' × '+ks.copies+' cop'+(ks.copies>1?'ies':'y')+'</dd>'+
             '<dt>Mode</dt><dd>'+(ks.color==='bw'?'B&amp;W':'Colour')+(ks.range?' · pages '+esc(ks.range):'')+'</dd>'+
             '<dt>Total</dt><dd>₹'+kioskTotal()+'</dd>'+
           '</dl>'+
           '<ul class="timeline">'+lis+'</ul>'+
         '</div>'+
-        '<div class="bt-foot"><button class="btn" id="kNew">New print</button>'+
-        '<a class="btn ghost" style="border-color:var(--line);color:var(--ink)" href="#/">About the system</a></div>'+
+        '<div class="bt-foot"><button class="btn" id="kNew">Send more files</button>'+
+        '<a class="btn ghost" style="border-color:var(--line);color:var(--ink)" href="#/">Home</a></div>'+
       '</div></div>';
     bindConnChipEvents();
     $('kNew').onclick=function(){
-      ks={view:'form',fileData:null,fileName:'',fileType:'',fileSize:0,mime:'',pages:1,copies:1,
-        color:'bw',range:'',ticketNo:null,sending:0,
+      ks={view:'form',files:[],copies:1,color:'bw',range:'',tickets:[],sentCount:0,doneCount:0,sending:0,sendingLabel:'',
         live:{received:false,printing:false,done:false,error:null}};
       renderKiosk();
     };
     return;
   }
 
-  var fileBlock=ks.fileData?
-    '<div class="file-card"><div class="ftype">'+esc(ks.fileType)+'</div>'+
-      '<div><div class="fname">'+esc(ks.fileName)+'</div>'+
-      '<div class="fmeta">'+(ks.fileSize/1024).toFixed(0)+' KB · '+ks.pages+' page'+(ks.pages>1?'s':'')+' detected</div></div>'+
-      '<button class="rm" id="kRemove">Remove</button></div>'
-    :
+  var filesListHTML='';
+  if(ks.files.length){
+    filesListHTML='<div class="file-list">'+ks.files.map(function(f,idx){
+      return '<div class="file-card">'+
+        '<div class="ftype">'+esc(f.fileType)+'</div>'+
+        '<div style="min-width:0;flex:1"><div class="fname">'+esc(f.fileName)+'</div>'+
+        '<div class="fmeta">'+(f.fileSize/1024).toFixed(0)+' KB · '+f.pages+' page'+(f.pages>1?'s':'')+'</div></div>'+
+        '<div class="fpages"><span>Pages:</span><input type="number" min="1" max="2000" data-idx="'+idx+'" class="js-fpages" value="'+f.pages+'"></div>'+
+        '<button class="rm js-frm" data-idx="'+idx+'">✕</button>'+
+      '</div>';
+    }).join('')+'</div>';
+  }
+
+  var dropBlock=
     '<div class="drop" id="kDrop">'+
       '<div class="icon"><svg viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg></div>'+
-      '<b>Upload your file</b><span>Tap to browse · PDF · Images · DOC · TXT</span>'+
-      '<input type="file" id="kFile" hidden accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.bmp,.doc,.docx,.txt,.csv"></div>';
+      '<b>'+(ks.files.length?'+ Add more files':'Upload your files (Multiple supported)')+'</b>'+
+      '<span>Tap to select 1 or more files · PDF · Images · TXT</span>'+
+      '<input type="file" id="kFile" multiple hidden accept=".pdf,.png,.jpg,.jpeg,.gif,.webp,.bmp,.txt,.csv"></div>';
 
+  var totPages=totalSelectedPages();
   box.innerHTML=connChipHTML()+
-    '<h1 class="k-title">Print your document</h1>'+
-    '<p class="k-lead">No account, no login. Upload a file, choose your options and send it — the station prints it automatically.</p>'+
-    fileBlock+
+    '<h1 class="k-title">Print your documents</h1>'+
+    '<p class="k-lead">Select one or multiple files at once. They print automatically at the shop without any headers or footers.</p>'+
+    filesListHTML+
+    dropBlock+
     '<div class="opt">'+
-      '<h3>Print options</h3>'+
+      '<h3>Print options (applies to all selected files)</h3>'+
       '<div class="seg2" id="kColor">'+
         '<button data-v="bw" class="'+(ks.color==='bw'?'on':'')+'">B&amp;W · ₹'+cfg.bwRate+'/page</button>'+
         '<button data-v="color" class="'+(ks.color==='color'?'on':'')+'">Colour · ₹'+cfg.colorRate+'/page</button>'+
       '</div>'+
       '<div class="field"><label>Number of copies</label>'+
         '<div class="stepper"><button id="kMinus">−</button><div class="val">'+ks.copies+'</div><button id="kPlus">+</button></div></div>'+
-      '<div class="field"><label>Page range (optional)</label>'+
-        '<input id="kRange" type="text" placeholder="e.g. 1-5, 8" value="'+esc(ks.range)+'">'+
-        '<div class="sub">Leave empty to print the whole file</div></div>'+
-      '<div class="field"><label>Page count (if detected wrong)</label>'+
-        '<input id="kPages" type="number" min="1" max="2000" value="'+ks.pages+'"></div>'+
+      '<div class="field"><label>Page range (optional, for PDF)</label>'+
+        '<input id="kRange" type="text" placeholder="e.g. 1-5, 8 (leave empty for all pages)" value="'+esc(ks.range)+'"></div>'+
     '</div>'+
     '<div class="estimate">'+
-      '<div><div class="lbl">Estimated total</div><div class="amt">₹'+kioskTotal()+'</div></div>'+
-      '<div class="brk">'+ks.pages+' pages × '+ks.copies+' cop'+(ks.copies>1?'ies':'y')+' × ₹'+kioskRate()+'</div>'+
+      '<div><div class="lbl">Estimated total ('+ks.files.length+' file'+(ks.files.length===1?'':'s')+')</div><div class="amt">₹'+kioskTotal()+'</div></div>'+
+      '<div class="brk">'+totPages+' page'+(totPages===1?'':'s')+' × '+ks.copies+' cop'+(ks.copies>1?'ies':'y')+' × ₹'+kioskRate()+'</div>'+
     '</div>'+
-    '<button class="btn btn-submit" id="kSubmit" '+(ks.fileData?'':'disabled')+'>'+
-      (net.status==='online'?'Print now — send to station':'Print now')+'</button>'+
-    '<p class="k-lead" style="margin-top:18px;font-size:12px;color:var(--muted);text-align:center">Your document goes straight to the shop printer and is deleted after printing.</p>';
+    '<button class="btn btn-submit" id="kSubmit" '+(ks.files.length?'':'disabled')+'>'+
+      (ks.files.length>1 ? ('Print all '+ks.files.length+' files now') : 'Print now — send to station')+'</button>';
 
   bindConnChipEvents();
 
   if($('kDrop')){
     var drop=$('kDrop'),fi=$('kFile');
     drop.onclick=function(){fi.click();};
-    fi.onchange=function(){if(fi.files[0])acceptFile(fi.files[0]);};
+    fi.onchange=function(){if(fi.files && fi.files.length)acceptFiles(fi.files);};
     drop.addEventListener('dragover',function(e){e.preventDefault();drop.classList.add('over');});
     drop.addEventListener('dragleave',function(){drop.classList.remove('over');});
     drop.addEventListener('drop',function(e){
       e.preventDefault();drop.classList.remove('over');
-      if(e.dataTransfer.files[0])acceptFile(e.dataTransfer.files[0]);
+      if(e.dataTransfer.files && e.dataTransfer.files.length)acceptFiles(e.dataTransfer.files);
     });
   }
-  if($('kRemove'))$('kRemove').onclick=function(){ks.fileData=null;ks.fileName='';ks.pages=1;renderKiosk();};
+
+  Array.prototype.forEach.call(box.querySelectorAll('.js-frm'),function(btn){
+    btn.onclick=function(){
+      var idx=parseInt(this.getAttribute('data-idx'),10);
+      ks.files.splice(idx,1);
+      renderKiosk();
+    };
+  });
+  Array.prototype.forEach.call(box.querySelectorAll('.js-fpages'),function(inp){
+    inp.oninput=function(){
+      var idx=parseInt(this.getAttribute('data-idx'),10);
+      if(ks.files[idx]){
+        ks.files[idx].pages=Math.max(1,parseInt(this.value,10)||1);
+        renderKiosk();
+      }
+    };
+  });
+
   $('kColor').addEventListener('click',function(e){
     var b=e.target.closest('button');if(!b)return;
-    ks.color=b.getAttribute('data-v');renderKiosk();});
+    ks.color=b.getAttribute('data-v');renderKiosk();
+  });
   $('kMinus').onclick=function(){ks.copies=Math.max(1,ks.copies-1);renderKiosk();};
   $('kPlus').onclick=function(){ks.copies=Math.min(50,ks.copies+1);renderKiosk();};
   $('kRange').oninput=function(){ks.range=this.value;};
-  $('kPages').oninput=function(){ks.pages=Math.max(1,parseInt(this.value,10)||1);renderKiosk();};
-  $('kSubmit').onclick=submitJob;
+  $('kSubmit').onclick=submitBatchJobs;
 }
 
-function acceptFile(file){
-  if(!ACCEPT.test(file.name)){toast('Please upload PDF, image, DOC or TXT');return;}
-  if(file.size>12*1024*1024){toast('File too large — max 12 MB');return;}
-  var r=new FileReader();
-  r.onload=function(){
-    ks.fileData=r.result;
-    ks.fileName=file.name;
-    ks.fileSize=file.size;
-    ks.mime=(r.result.match(/^data:([^;]+)/)||[])[1]||'application/octet-stream';
-    ks.fileType=(file.name.split('.').pop()||'FILE').toUpperCase().slice(0,4);
-    if(/^data:image/.test(ks.fileData))ks.pages=1;
-    else if(/pdf/i.test(ks.mime))ks.pages=estimatePdfPages(ks.fileData);
-    else ks.pages=1;
-    renderKiosk();
-    toast('File ready');
-  };
-  r.onerror=function(){toast('Could not read file');};
-  r.readAsDataURL(file);
+function acceptFiles(fileList){
+  var arr=Array.prototype.slice.call(fileList);
+  var added=0;
+  arr.forEach(function(file){
+    if(!ACCEPT.test(file.name)){toast('Skipped unsupported: '+file.name);return;}
+    if(file.size>16*1024*1024){toast(file.name+' too large (max 16 MB)');return;}
+    var r=new FileReader();
+    r.onload=function(){
+      var dataUrl=r.result;
+      var mime=(dataUrl.match(/^data:([^;]+)/)||[])[1]||'application/octet-stream';
+      var ftype=(file.name.split('.').pop()||'FILE').toUpperCase().slice(0,4);
+      var pages=1;
+      if(/pdf/i.test(mime)) pages=estimatePdfPages(dataUrl);
+      var item={
+        fileData:dataUrl,
+        fileName:file.name,
+        fileSize:file.size,
+        mime:mime,
+        fileType:ftype,
+        pages:pages
+      };
+      ks.files.push(item);
+      added++;
+      /* Also count exact PDF pages via PDF.js if available */
+      if(/pdf/i.test(mime)){
+        loadPdfJs().then(function(lib){
+          var bin=atob(dataUrl.split(',')[1]||'');
+          var u8=new Uint8Array(bin.length);
+          for(var i=0;i<bin.length;i++)u8[i]=bin.charCodeAt(i);
+          return lib.getDocument({data:u8}).promise;
+        }).then(function(pdf){
+          item.pages=pdf.numPages;
+          renderKiosk();
+        }).catch(function(){});
+      }
+      renderKiosk();
+      if(added===1) toast(arr.length>1 ? (arr.length+' files added') : 'File ready');
+    };
+    r.readAsDataURL(file);
+  });
 }
+
 function estimatePdfPages(dataUrl){
   try{
     var bin=atob(dataUrl.split(',')[1]||'');
@@ -1932,103 +2007,151 @@ function estimatePdfPages(dataUrl){
   }catch(e){return 1;}
 }
 
-function flushPendingCustomerJob(){
-  if(net.pendingJob && net.status==='online'){
-    var pj = net.pendingJob;
-    net.pendingJob = null;
-    sendJobNow(pj.meta, pj.base64, pj.dataUrl);
+function flushPendingCustomerBatch(){
+  if(net.pendingBatch && net.status==='online'){
+    var batch = net.pendingBatch;
+    net.pendingBatch = null;
+    sendBatchNow(batch);
   }
 }
 
-function sendJobNow(meta, base64, fullDataUrl){
-  /* 1. If connected via WebRTC PeerJS */
-  if(net.conns.length && net.conns[0].open){
-    var conn=net.conns[0];
-    var CH=16*1024,n=Math.max(1,Math.ceil(base64.length/CH));
-    meta.chunks=n;
-    try{conn.send({t:'meta',job:meta});}catch(e){toast('Connection lost — retrying');scheduleCustomerRetry(500);return;}
-    ks.view='sending';ks.sending=0;renderKiosk();
-    var i=0;
-    (function tick(){
-      if(!conn.open){
-        ks.live.error='Connection lost during transfer';
-        ks.view='ticket';renderKiosk();return;
+function sendSingleItemOverConn(conn, item, onProgress, onDone){
+  var CH=16*1024, n=Math.max(1,Math.ceil(item.base64.length/CH));
+  item.meta.chunks=n;
+  try{conn.send({t:'meta',job:item.meta});}catch(e){onDone(e);return;}
+  var i=0;
+  (function tick(){
+    if(!conn.open){onDone(new Error('Connection lost'));return;}
+    var end=Math.min(i+8,n);
+    for(;i<end;i++){
+      try{conn.send({t:'chunk',id:item.meta.id,i:i,n:n,data:item.base64.slice(i*CH,(i+1)*CH)});}catch(e){}
+    }
+    onProgress(i/n);
+    if(i<n) setTimeout(tick, 10);
+    else {
+      try{conn.send({t:'done',id:item.meta.id});}catch(e){}
+      onDone(null);
+    }
+  })();
+}
+
+function sendBatchNow(batch){
+  ks.tickets=[];
+  ks.sentCount=batch.length;
+  ks.doneCount=0;
+
+  /* 1. Connected via WebRTC PeerJS */
+  if(net.custConn && net.custConn.open){
+    var conn=net.custConn;
+    ks.view='sending';
+    ks.sending=0;
+    renderKiosk();
+
+    var idx=0;
+    function nextFile(){
+      if(idx>=batch.length){
+        ks.view='ticket';
+        renderKiosk();
+        toast('All files sent — auto-printing now');
+        return;
       }
-      var end=Math.min(i+8,n);
-      for(;i<end;i++){
-        try{conn.send({t:'chunk',id:meta.id,i:i,n:n,data:base64.slice(i*CH,(i+1)*CH)});}catch(e){}
-      }
-      ks.sending=Math.round(i/n*100);
-      if(ks.view==='sending'){
-        var pct=document.querySelector('.prog-pct'),bar=document.querySelector('.bar i');
-        if(pct)pct.textContent=ks.sending+'%';
-        if(bar)bar.style.width=ks.sending+'%';
-      }
-      if(i<n)setTimeout(tick,12);
-      else{
-        try{conn.send({t:'done',id:meta.id});}catch(e){}
-        ks.view='ticket';renderKiosk();
-        toast('Sent — printing shortly');
-      }
-    })();
+      var cur=batch[idx];
+      ks.sendingLabel='File '+(idx+1)+' of '+batch.length+': '+cur.meta.fileName;
+      sendSingleItemOverConn(conn, cur, function(fileRatio){
+        var totalRatio=(idx+fileRatio)/batch.length;
+        ks.sending=Math.round(totalRatio*100);
+        if(ks.view==='sending'){
+          var pct=document.querySelector('.prog-pct'),bar=document.querySelector('.bar i');
+          if(pct)pct.textContent=ks.sending+'%';
+          if(bar)bar.style.width=ks.sending+'%';
+        }
+      }, function(err){
+        if(err){
+          ks.live.error='Connection interrupted';
+          ks.view='ticket';
+          renderKiosk();
+          return;
+        }
+        idx++;
+        nextFile();
+      });
+    }
+    nextFile();
     return;
   }
 
-  /* 2. If connected via same-device BroadcastChannel */
+  /* 2. Same-device BroadcastChannel */
   if(net.isLocalBridge && bc){
-    bc.postMessage({target:'shop',t:'local_job',meta:meta,dataUrl:fullDataUrl});
+    batch.forEach(function(item){
+      bc.postMessage({target:'shop',t:'local_job',meta:item.meta,dataUrl:item.dataUrl});
+    });
     ks.view='ticket';
     ks.live.received=true;
     renderKiosk();
-    toast('Sent to station on this device');
+    toast('Sent '+batch.length+' file(s) to station');
     return;
   }
 
   /* 3. Same-tab fallback */
-  var no=cfg.nextNo++;saveCfg();
-  meta.no=no;
   window.__localQueue=window.__localQueue||[];
-  window.__localQueue.push({meta:meta,dataUrl:fullDataUrl});
-  ks.view='ticket';ks.ticketNo=no;ks.live.received=true;
+  batch.forEach(function(item){
+    var no=cfg.nextNo++;saveCfg();
+    item.meta.no=no;
+    ks.tickets.push(no);
+    window.__localQueue.push({meta:item.meta,dataUrl:item.dataUrl});
+  });
+  ks.view='ticket';
+  ks.live.received=true;
   renderKiosk();
-  toast('Job #'+no+' queued on this device');
+  toast(batch.length+' file(s) queued on this device');
 }
 
-function submitJob(){
-  if(!ks.fileData){toast('Upload a file first');return;}
-  var id='j'+Date.now().toString(36)+Math.floor(Math.random()*999).toString(36);
-  var base64=ks.fileData.split(',')[1]||'';
-  var meta={
-    id:id,fileName:ks.fileName,mime:ks.mime,pages:ks.pages,copies:ks.copies,
-    color:ks.color,range:ks.range,price:kioskTotal()
-  };
+function submitBatchJobs(){
+  if(!ks.files.length){toast('Upload at least one file');return;}
+  var batch=ks.files.map(function(f, idx){
+    var id='j'+Date.now().toString(36)+idx+Math.floor(Math.random()*999).toString(36);
+    var base64=f.fileData.split(',')[1]||'';
+    var filePrice=Math.round(f.pages*ks.copies*kioskRate()*100)/100;
+    return {
+      meta:{
+        id:id,
+        fileName:f.fileName,
+        mime:f.mime,
+        pages:f.pages,
+        copies:ks.copies,
+        color:ks.color,
+        range:ks.range,
+        price:filePrice
+      },
+      base64:base64,
+      dataUrl:f.fileData
+    };
+  });
 
   if(net.status==='online'){
-    sendJobNow(meta, base64, ks.fileData);
+    sendBatchNow(batch);
     return;
   }
 
-  /* If currently connecting to a scanned shop ID, queue & wait up to 6s for instant flush */
   if(net.shopId && net.status==='connecting'){
-    net.pendingJob={meta:meta,base64:base64,dataUrl:ks.fileData};
+    net.pendingBatch=batch;
     ks.view='waiting_conn';
     renderKiosk();
     tryConnectToShop();
     setTimeout(function(){
-      if(net.pendingJob && net.pendingJob.meta.id===id){
-        var pj=net.pendingJob;
-        net.pendingJob=null;
-        sendJobNow(pj.meta, pj.base64, pj.dataUrl);
+      if(net.pendingBatch===batch){
+        net.pendingBatch=null;
+        sendBatchNow(batch);
       }
-    }, 6000);
+    }, 5500);
     return;
   }
 
-  sendJobNow(meta, base64, ks.fileData);
+  sendBatchNow(batch);
 }
 
 /* =========================================================
-   DESK (PRINT STATION)
+   DESK (SHOP STATION)
    ========================================================= */
 function renderConnPanel(){
   var host=$('connPanel');
@@ -2040,15 +2163,14 @@ function renderConnPanel(){
   var statusLabel,chipClass;
   if(net.status==='online'){
     statusLabel = connectedCount > 0
-      ? ('Station online · '+connectedCount+' phone'+(connectedCount>1?'s':'')+' connected')
-      : 'Station online · ready for instant scan';
+      ? ('Station online · '+connectedCount+' customer'+(connectedCount>1?'s':'')+' connected live')
+      : 'Station online · ready for multiple scans';
     chipClass='on';
   }
   else if(net.status==='connecting'){statusLabel='Activating instant link…';chipClass='wait';}
   else if(net.status==='local'){statusLabel='Local mode · same device only';chipClass='off';}
   else {statusLabel='Reconnecting station…';chipClass='wait';}
 
-  /* Always render the QR immediately from the persistent shopId so customers can scan right away */
   var qrHtml='';
   if(activeId){
     try{qrHtml=qrSvg(makeQr(uploadUrl(),'H'),3,'#111111','#ffffff');}catch(e){}
@@ -2057,8 +2179,8 @@ function renderConnPanel(){
   host.innerHTML=
     '<div class="qr-box">'+(qrHtml||'<span style="display:block;text-align:center;padding:70px 0;font-family:var(--mono);font-size:9px;letter-spacing:.22em;color:#8d8171">GENERATING…</span>')+'</div>'+
     '<div class="conn-info">'+
-      '<h2>Scan to connect &amp; print</h2>'+
-      '<p>Your shop QR is <b>always active</b> while this page is open. Customers scan this QR (or your printed poster) to connect immediately and print automatically.</p>'+
+      '<h2>Scan to connect &amp; auto-print</h2>'+
+      '<p>Multiple customers can scan this QR at the same time and send multiple files at once. Files auto-print in the background without redirecting this screen and without any headers or footers.</p>'+
       '<div class="conn-meta">'+
         '<span class="chip '+chipClass+'"><i></i> '+statusLabel+'</span>'+
         '<span class="conn-code">code: '+esc(activeId)+'</span>'+
@@ -2096,7 +2218,9 @@ function renderDesk(){
   $('setClrPrinter').value=cfg.colorPrinter;
   $('setBwRate').value=cfg.bwRate;
   $('setClrRate').value=cfg.colorRate;
+  $('setWebhook').value=cfg.webhook||'';
   $('setAutoPrint').checked=!!cfg.autoPrint;
+  $('setKeepFiles').checked=!!cfg.keepFiles;
 
   renderConnPanel();
 
@@ -2111,18 +2235,20 @@ function renderDesk(){
     }
   });
 
+  var connectedCount = net.conns.filter(function(c){return c && c.open;}).length;
+
   $('deskStats').innerHTML=
-    '<div class="stat"><div class="k">Jobs on station</div><div class="v accent">'+jobs.length+'</div><div class="s">'+(printing?'Printing now':'Idle')+'</div></div>'+
+    '<div class="stat"><div class="k">Connected phones</div><div class="v accent">'+connectedCount+'</div><div class="s">'+(printing?'Printing job now':'Multi-user active')+'</div></div>'+
     '<div class="stat"><div class="k">Pages this month</div><div class="v">'+monthPages+'</div><div class="s">'+monthJobs+' completed job'+(monthJobs===1?'':'s')+'</div></div>'+
     '<div class="stat"><div class="k">Revenue (est.)</div><div class="v">₹'+monthRevenue.toFixed(0)+'</div><div class="s">At your configured rates</div></div>'+
-    '<div class="stat"><div class="k">All-time jobs</div><div class="v">'+logdb.length+'</div><div class="s">'+(cfg.autoPrint?'Auto-print ON':'Manual mode')+'</div></div>';
+    '<div class="stat"><div class="k">All-time jobs</div><div class="v">'+logdb.length+'</div><div class="s">'+(cfg.autoPrint?'Instant Auto-Print ON':'Manual mode')+'</div></div>';
 
-  var active=jobs.filter(function(j){return j.status!=='done';});
+  var active=jobs.filter(function(j){return cfg.keepFiles ? true : j.status!=='done';});
   $('pendingCount').textContent=active.length;
 
   var q=$('queueList');
   if(!active.length){
-    q.innerHTML='<div class="empty"><b>Waiting for jobs</b>Customers scan your QR and files appear here — then print automatically.</div>';
+    q.innerHTML='<div class="empty"><b>Waiting for jobs</b>Multiple customers can scan your QR at once — files appear here with live preview and print automatically.</div>';
   } else {
     q.innerHTML='';
     active.forEach(function(j){q.appendChild(jobCard(j));});
@@ -2146,7 +2272,11 @@ function jobCard(j){
   var meta=j.meta;
   var printer=meta.color==='bw'?cfg.bwPrinter:cfg.colorPrinter;
   var pct=j.status==='receiving'?Math.round((j.got/(j.n||1))*100):100;
-  var badgeClass=j.status==='receiving'?'receiving':(j.status==='printing'?'printing':'queued');
+  var badgeClass=j.status==='receiving'?'receiving':(j.status==='printing'?'printing':(j.status==='done'?'done':'queued'));
+  var thumbHtml=j.renderedPages && j.renderedPages[0]
+    ? '<img src="'+j.renderedPages[0]+'" style="'+(meta.color==='bw'?'filter:grayscale(1);':'')+'" alt="Preview">'
+    : '<span>'+(j.status==='receiving'?('Receiving '+pct+'%'):'Rendering preview…')+'</span>';
+
   el.innerHTML=
     '<div class="badge '+badgeClass+'">'+j.status+'</div>'+
     '<div class="head">'+
@@ -2155,32 +2285,33 @@ function jobCard(j){
       '<div class="when">'+timeAgo(j.createdAt)+'</div>'+
     '</div>'+
     (j.status==='receiving'?'<div class="mini-bar"><i style="width:'+pct+'%"></i></div>':'')+
-    '<dl>'+
-      '<dt>Pages</dt><dd>'+meta.pages+' page'+(meta.pages>1?'s':'')+'</dd>'+
-      '<dt>Copies</dt><dd>'+meta.copies+'</dd>'+
-      '<dt>Mode</dt><dd>'+(meta.color==='bw'?'Black &amp; White':'Colour')+'</dd>'+
-      '<dt>Range</dt><dd>'+(meta.range?esc(meta.range):'Full document')+'</dd>'+
-    '</dl>'+
-    '<div class="route"><span class="arrow">▸</span> Auto-route → '+esc(printer)+'</div>'+
+    '<div class="ocard-grid">'+
+      '<dl>'+
+        '<dt>Pages</dt><dd>'+meta.pages+' page'+(meta.pages>1?'s':'')+'</dd>'+
+        '<dt>Copies</dt><dd>'+meta.copies+'</dd>'+
+        '<dt>Mode</dt><dd>'+(meta.color==='bw'?'Black &amp; White':'Colour')+'</dd>'+
+        '<dt>Range</dt><dd>'+(meta.range?esc(meta.range):'Full document')+'</dd>'+
+        '<dt>Amount</dt><dd>₹'+meta.price+'</dd>'+
+      '</dl>'+
+      '<div class="ocard-thumb" title="Click View File to inspect all pages">'+thumbHtml+'</div>'+
+    '</div>'+
+    '<div class="route"><span class="arrow">▸</span> Auto-route → '+esc(printer)+' (No header/footer)</div>'+
     '<div class="actions">'+
-      '<button class="act ok">Print now · ₹'+meta.price+'</button>'+
-      '<button class="act no">'+(j.status==='printing'?'Printing…':'Cancel job')+'</button>'+
+      '<button class="act pr js-view">View File</button>'+
+      '<button class="act ok js-print">Print · ₹'+meta.price+'</button>'+
+      '<button class="act no js-cancel">'+(j.status==='done'?'Remove':'Cancel')+'</button>'+
     '</div>';
-  var btns=el.querySelectorAll('.act');
-  Array.prototype.forEach.call(btns,function(b){
-    if(b.textContent.indexOf('Print now')===0){
-      b.onclick=function(){enqueue(j);};
-    } else {
-      b.onclick=function(){
-        if(j.status==='printing')return;
-        notify(j,'error','Job cancelled at shop');
-        jobs=jobs.filter(function(x){return x!==j;});
-        printQ=printQ.filter(function(x){return x!==j;});
-        renderDesk();
-        toast('Job cancelled · file dropped');
-      };
-    }
-  });
+
+  el.querySelector('.js-view').onclick=function(){ openJobPreview(j); };
+  el.querySelector('.ocard-thumb').onclick=function(){ openJobPreview(j); };
+  el.querySelector('.js-print').onclick=function(){ enqueue(j, true); };
+  el.querySelector('.js-cancel').onclick=function(){
+    if(j.status!=='done') notify(j,'error','Job cancelled at shop');
+    jobs=jobs.filter(function(x){return x!==j;});
+    printQ=printQ.filter(function(x){return x!==j;});
+    renderDesk();
+    toast('Job removed');
+  };
   return el;
 }
 
@@ -2190,27 +2321,28 @@ setInterval(function(){
   var q=window.__localQueue;
   if(q&&q.length){
     var j=q.shift();
-    var job={meta:j.meta,parts:[],got:1,n:1,conn:null,status:'queued',createdAt:Date.now(),dataUrl:j.dataUrl};
-    jobs.push(job);
-    if(cfg.autoPrint)enqueue(job);
-    renderDesk();
+    receiveFullJob(j.meta, j.dataUrl, null);
   }
-},800);
+},600);
 
 /* desk tools */
 $('btnPoster').onclick=function(){
   ensureShopPeerId();
-  printContent(posterHTML()).then(function(){toast('QR poster sent to printer');});
+  printViaHiddenIframe(posterHTML()).then(function(){toast('QR poster sent to printer');});
 };
 $('btnTestBw').onclick=function(){
-  printContent(testPrintHTML(cfg.bwPrinter)).then(function(){toast('Test page sent to '+cfg.bwPrinter);});
+  printViaHiddenIframe(testPrintHTML(cfg.bwPrinter)).then(function(){toast('Test page sent to '+cfg.bwPrinter);});
 };
 $('btnTestClr').onclick=function(){
-  printContent(testPrintHTML(cfg.colorPrinter)).then(function(){toast('Test page sent to '+cfg.colorPrinter);});
+  printViaHiddenIframe(testPrintHTML(cfg.colorPrinter)).then(function(){toast('Test page sent to '+cfg.colorPrinter);});
 };
 $('btnReprint').onclick=function(){
-  toast('Reprint opens the dialog — use Print on the system sheet');
-  printContent(testPrintHTML(cfg.bwPrinter));
+  if(lastPrinted && lastPrinted.renderedPages && lastPrinted.renderedPages.length){
+    var cleanHtml=buildCleanPrintHTML(lastPrinted.meta, lastPrinted.renderedPages);
+    printViaHiddenIframe(cleanHtml).then(function(){toast('Reprinted #'+lastPrinted.meta.no);});
+  } else {
+    toast('No recent job in memory to reprint');
+  }
 };
 $('btnLogout').onclick=function(){
   try{if(net.peer)net.peer.destroy();}catch(e){}
@@ -2226,9 +2358,10 @@ $('btnSaveCfg').onclick=function(){
   cfg.colorPrinter=$('setClrPrinter').value.trim()||cfg.colorPrinter;
   cfg.bwRate=Math.max(0,parseFloat($('setBwRate').value)||0);
   cfg.colorRate=Math.max(0,parseFloat($('setClrRate').value)||0);
+  cfg.webhook=$('setWebhook').value.trim();
   cfg.autoPrint=$('setAutoPrint').checked;
+  cfg.keepFiles=$('setKeepFiles').checked;
   saveCfg();
-  /* Broadcast updated rates & shop name to any connected customers immediately */
   net.conns.forEach(function(c){
     if(c && c.open){
       try{c.send({t:'hello',shop:cfg.shop,rates:{bw:cfg.bwRate,color:cfg.colorRate}});}catch(e){}
@@ -2239,8 +2372,7 @@ $('btnSaveCfg').onclick=function(){
 };
 $('btnReset').onclick=function(){
   jobs=[];printQ=[];logdb=[];saveLog();lastPrinted=null;
-  localFiles={};
-  try{localStorage.setItem(FILES_KEY,'{}');localStorage.removeItem('qrp_last_shop');}catch(e){}
+  try{localStorage.removeItem('qrp_last_shop');}catch(e){}
   renderDesk();
   toast('Station data cleared');
 };
