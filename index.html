@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">  
 <head>  
@@ -1030,7 +1030,7 @@ setTimeout(firePrint, 6000);
 }
 
 function testPrintHTML(name){
-return '<!DOCTYPE html><html><head><meta charset="utf-8"><title> </title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:18mm;font-family:Helvetica,Arial,sans-serif;}</style></head><body>'+
+return '<!DOCTYPE html><html><head><meta charset="utf-8"><title> </title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:18mm;font-family:Helvetica,Arial,sans-serif;}</style></head><body>'+
 '<div style="font:700 11px Helvetica;letter-spacing:3px;color:#666">TEST PAGE · '+(new Date()).toLocaleString()+'</div>'+
 '<h1 style="font:700 30px Helvetica;margin:14px 0 6px">'+esc(cfg.shop)+'</h1>'+
 '<div style="font:13px Helvetica;color:#444;margin-bottom:20px">Printer: <b>'+esc(name)+'</b></div>'+
@@ -1045,7 +1045,7 @@ return location.origin+location.pathname+'#/kiosk'+(id?'?p='+encodeURIComponent(
 }
 function posterHTML(){
 var url=uploadUrl(),qr=makeQr(url,'H');
-return '<!DOCTYPE html><html><head><meta charset="utf-8"><title> </title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:14mm;font-family:Helvetica,Arial,sans-serif;text-align:center;}</style></head><body>'+
+return '<!DOCTYPE html><html><head><meta charset="utf-8"><title> </title><style>@page{size:A4;margin:0mm !important;}body{margin:0;padding:14mm;font-family:Helvetica,Arial,sans-serif;text-align:center;}</style></head><body>'+
 '<div style="font:700 11px Helvetica;letter-spacing:4px;color:#f26522">SCAN · UPLOAD · AUTO-PRINT</div>'+
 '<h1 style="font:700 42px/1.05 Helvetica;margin:12px 0 4px;text-transform:uppercase">'+esc(cfg.shop)+'</h1>'+
 '<div style="font:15px Helvetica;color:#444;margin-bottom:8mm">Scan this QR code with your phone camera<br>to upload multiple documents and print instantly.<br><b>No account needed.</b></div>'+
@@ -1108,7 +1108,8 @@ id:'',
 attempts:0,
 retryTimer:null,
 hbTimer:null,
-pendingBatch:null
+pendingBatch:null,
+activeChunkAck:null
 };
 var jobs=[],printQ=[],printing=false,lastPrinted=null;
 
@@ -1325,6 +1326,8 @@ jobs[i].got++;
 }
 jobs[i].n=d.n;
 jobs[i].status='receiving';
+/* ACK after the shop has stored the chunk. */
+try{if(conn && conn.open)conn.send({t:'chunk_ack',id:d.id,i:d.i});}catch(e){}
 renderDesk();
 break;
 }
@@ -1574,6 +1577,8 @@ flushPendingCustomerBatch();
 });
 
 conn.on('data',function(d){
+/* Consume acknowledgements for the active file transfer. */
+if(d && d.t==='chunk_ack' && net.activeChunkAck){net.activeChunkAck(d);return;}
 handleCustomerData(d);
 });
 
@@ -1989,23 +1994,36 @@ sendBatchNow(batch);
 }
 
 function sendSingleItemOverConn(conn, item, onProgress, onDone){
-var CH=161024, n=Math.max(1,Math.ceil(item.base64.length/CH));
+/* Small, acknowledged WebRTC chunks avoid oversized bursts being dropped. */
+var CH=12*1024;
+var n=Math.max(1,Math.ceil(item.base64.length/CH));
 item.meta.chunks=n;
-try{conn.send({t:'meta',job:item.meta});}catch(e){onDone(e);return;}
-var i=0;
-(function tick(){
-if(!conn.open){onDone(new Error('Connection lost'));return;}
-var end=Math.min(i+8,n);
-for(;i<end;i++){
-try{conn.send({t:'chunk',id:item.meta.id,i:i,n:n,data:item.base64.slice(i*CH,(i+1)*CH)});}catch(e){}
+var i=0,retries=0,timer=null,finished=false;
+function finish(err){
+  if(finished)return;
+  finished=true;clearTimeout(timer);
+  if(net.activeChunkAck===onAck)net.activeChunkAck=null;
+  if(err){onDone(err);return;}
+  try{conn.send({t:'done',id:item.meta.id});}catch(e){onDone(e);return;}
+  onDone(null);
 }
-onProgress(i/n);
-if(i<n) setTimeout(tick, 10);
-else {
-try{conn.send({t:'done',id:item.meta.id});}catch(e){}
-onDone(null);
+function onAck(d){
+  if(finished||!d||d.id!==item.meta.id||d.i!==i)return;
+  clearTimeout(timer);retries=0;i++;onProgress(i/n);
+  if(i>=n){finish(null);return;}
+  setTimeout(sendCurrent,8);
 }
-})();
+function sendCurrent(){
+  if(finished)return;
+  if(!conn.open){finish(new Error('Connection lost while sending '+item.meta.fileName));return;}
+  if(retries>=4){finish(new Error('Shop did not confirm receipt of '+item.meta.fileName+'. Please retry.'));return;}
+  try{conn.send({t:'chunk',id:item.meta.id,i:i,n:n,data:item.base64.slice(i*CH,(i+1)*CH)});}
+  catch(e){retries++;timer=setTimeout(sendCurrent,500);return;}
+  timer=setTimeout(function(){retries++;sendCurrent();},4000);
+}
+net.activeChunkAck=onAck;
+try{conn.send({t:'meta',job:item.meta});}catch(e){finish(e);return;}
+setTimeout(sendCurrent,80);
 }
 
 function sendBatchNow(batch){
@@ -2040,7 +2058,7 @@ function nextFile(){
     }  
   }, function(err){  
     if(err){  
-      ks.live.error='Connection interrupted';  
+      ks.live.error=err.message || 'Connection interrupted';  
       ks.view='ticket';  
       renderKiosk();  
       return;  
